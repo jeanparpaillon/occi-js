@@ -23,19 +23,25 @@ var occi = {};
 		var i, j = 0;
 		var jqxhr = $.getJSON(this.baseurl + "/-/",
 			function(data) {
-				for (i=0, j=data.categories.length; i<j; i++) {
-					switch (data.categories[i].class) {
-						case "kind":
-							occi.kinds.push(data.categories[i]);
-							break;
-						case "mixin":
-							occi.mixins.push(data.categories[i]);
-							break;
-						case "action":
-							occi.actions.push(data.categories[i]);
-							break;
-					}
+				//console.log(data);
+				
+				// Build up the array of kinds
+				for (i=0, j=data['kinds'].length; i<j; i++) {
+					occi.kinds.push(data['kinds'][i]);
 				}
+
+				// Build up the array of mixins
+				for (i=0, j=data['mixins'].length; i<j; i++) {
+					occi.mixins.push(data['mixins'][i]);
+				}
+
+				// Build up the array of actions
+				for (i=0, j=data['actions'].length; i<j; i++) {
+					occi.actions.push(data['actions'][i]);
+				}
+				console.log(occi.kinds);
+				console.log(occi.mixins);
+				console.log(occi.actions);
 			});
 		return jqxhr;
 	};
