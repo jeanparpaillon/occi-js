@@ -13,6 +13,9 @@ var occi = {};
 		this.baseurl = "http://" + url;
 	};
 
+	/*
+		Get categories: Kinds, Mixins and Actions
+	*/
 	occi.loadCategories = function() {
 	
 		// Reset current categories
@@ -39,36 +42,49 @@ var occi = {};
 				for (i=0, j=data['actions'].length; i<j; i++) {
 					occi.actions.push(data['actions'][i]);
 				}
-				console.log(occi.kinds);
-				console.log(occi.mixins);
-				console.log(occi.actions);
+				//console.log(occi.kinds);
+				//console.log(occi.mixins);
+				//console.log(occi.actions);
 			});
 		return jqxhr;
 	};
 	
-	occi.loadResources = function (term, location) {
+	/*
+		Get resources
+	*/
+	occi.getResources = function (term, location) {
 	
 		var term = occi.category_name;
 		var location = occi.category_location;
 		
+		// FIXME Temporarily remove localdomain from the url
+		location = location.replace('.localdomain', '');
+		console.log("Current URL is: " + location);
+		
 		// Fetch the resources
-		var jqxhr_resources = $.getJSON(this.baseurl + location,
+		var jqxhr_resources = $.getJSON(location,
 			function(data) {
 			    var i, j;
-			
+				
 				// Reset the resources
 				occi.resources = [];
-				
-				//console.log(data.occi[term].location);
-				for (i=0, j=data.occi[term].location.length; i<j; i++) {
-					occi.resources.push({title: data.occi[term].location[i]});
+
+				// Check if we have any resources
+				if (data.length < 1) {
+					occi.resources.push({link: 'No resource for this category!'});
+				} else {
+					for(i=0, j=data.length; i<j; i++) {
+						occi.resources.push({link: data[i]});
+					}
 				}
-				
 			});
 			
 			return jqxhr_resources;		
 	}
 	
+	/*
+		Get categories
+	*/
 	occi.addResource = function (resource_description) {
 	
 		// Post the new resource

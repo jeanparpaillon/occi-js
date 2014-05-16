@@ -67,7 +67,7 @@ $(document).ready(function() {
 				occi.category_location = this.getAttribute('href');
 				
 				// Try to load the resources for this category
-				var jqxhr_resources = occi.loadResources();
+				var jqxhr_resources = occi.getResources();
 				
 				// Failed requested
 				jqxhr_resources.fail(function(jqxhr_resources, textStatus, error) {
@@ -97,7 +97,7 @@ $(document).ready(function() {
 						occi.addResource($('#resource_description').val());
 						
 						// Try to reload the resources for this category
-						var jqxhr_reload_resources = occi.loadResources();
+						var jqxhr_reload_resources = occi.getResources();
 						
 						// Failed requested
 						jqxhr_reload_resources.fail(function(jqxhr_reload_resources, textStatus, error) {

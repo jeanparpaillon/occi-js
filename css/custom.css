@@ -1,7 +1,46 @@
 /*
  * CSS for occi-js example
  */
-#sidebar form {
-    color: #ddd;
-    background-color: #004381;
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro);
+
+ body {
+ 	background-color: #f9f9f9;
+ 	font-family: "Source Sans Pro", sans-serif;
+ }
+ h1 {
+ 	margin: 1.5em 0 0;
+ }
+ h2 {
+ 	margin: 0.5em 0 2em;
+ 	padding-bottom: 0.5em;
+ 	font-size: 1.5em;
+ 	border-bottom: 1px solid #ccc;
+ }
+ h4 {
+ 	margin: 0 0 0.5em 0;
+ }
+ h3 {
+ 	margin: 0;
+} 
+h5 {
+	font-weight: bold;
+}
+.data {
+	margin-top: 3em;
+	padding: 2em;
+	border: 1px solid #ddd;
+	background-color: #fff;
+}
+ul {
+	margin: 0 0 1em 0;
+}
+#addResource {
+	margin: 1em 0 2em;
+}
+footer {
+	margin: 1em;
+	text-align: center;
+}
+footer a {
+	color: #999;
 }

@@ -1,84 +1,95 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" >
-  <head>
-    <title>OCCI Test Client</title>
+<head>
+	<title>OCCI Test Client</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script src="js/lib/jquery-1.11.1.min.js" type="text/javascript" ></script>
+	<script src="js/lib/underscore.js" type="text/javascript" ></script>
+	<script src="js/lib/handlebars.js" type="text/javascript" ></script>
+	<script src="js/occi.js" type="text/javascript" ></script>
 
-    <script src="js/lib/jquery.js" type="text/javascript" ></script>
-    <script src="js/lib/underscore.js" type="text/javascript" ></script>
-    <script src="js/lib/handlebars.js" type="text/javascript" ></script>
-    <script src="js/occi.js" type="text/javascript" ></script>
+	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen" /> 
+	<link href="css/custom.css" rel="stylesheet" />
+</head>
+<body>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" /> 
-    <link href="css/custom.css" rel="stylesheet" />
-  </head>
-  <body>
-    <div class="container-fluid">
-      <div class="row-fluid" >
-	<div id="sidebar" class="span4" >
-	
-	  <form id="serverForm" action="" method="post" >
-	    <input type="text" id="url" name="url"
-		   placeholder="occi.example.com" autofocus required="required" value="localhost:8080" />
-	    <input type="submit" id="submit" name="submit" />
-	  </form>
-	  
-		<h1>Categories</h1>
+<div class="container">
 
-		<h2>Kinds</h2>
-
-		<ul id="kinds"></ul>
-		<script type="text/x-handlebars-template" id="tpl-kinds">
-		{{#list kinds}}
-			<a href="{{location}}" title="{{term}}">{{title}}</a>
-		{{/list}}
-		</script>
-
-		<h2>Mixins</h2>
-
-		<ul id="mixins"></ul>
-		<script type="text/x-handlebars-template" id="tpl-mixins">
-		{{#list mixins}}
-			{{title}}: {{scheme}}{{term}}
-		{{/list}}
-		</script>
-
-		<h2>Actions</h2>
-
-		<ul id="actions"></ul>
-		<script type="text/x-handlebars-template" id="tpl-actions">
-		{{#list actions}}
-			{{title}}: {{scheme}}{{term}}
-		{{/list}}
-		</script>
+	<header>
+		<h1>occi-js</h1>
+		<h2>Javascript OCCI client library</h2>
+	</header>
 		
-	</div>
+		<p>To get started enter the address of your <a href="https://github.com/jeanparpaillon/erocci">Erocci</a> server:</p>
+	<form id="serverForm" action="" method="post" class="form-inline">
+		<input type="text" id="url" name="url" placeholder="occi.example.com" autofocus required="required" value="localhost:8080" class="form-control" />
+		<input type="submit" id="submit" name="submit" value="Get categories &raquo;" class="form-control" />
+	</form>
 
-	<div id="main" class="span8" >
+	<div class="data">
+	<div class="row">
 	
-		<h2>Resources</h2>
-		<form method="post" action="" class="form-inline" id="addResource">
-			<input type="text" name="description" id="resource_description" placeholder="Description" />
-			<input type="submit" name="add" value="Add Resource" />
-		</form>
-		<ul id="resources"></ul>
-		<script type="text/x-handlebars-template" id="tpl-resources">
-		{{#list resources}}
-			{{title}}
-		{{/list}}
-		</script>
-	
+		<div class="col-md-4">
+			<h4>Kinds</h4>
+			<ul id="kinds">
+				<script type="text/x-handlebars-template" id="tpl-kinds">
+				{{#list kinds}}
+				<a href="{{location}}" title="{{term}}">{{title}}</a>
+				{{/list}}
+				</script>
+			</ul>
 
+			<h4>Mixins</h4>
+			<ul id="mixins">
+				<script type="text/x-handlebars-template" id="tpl-mixins">
+				{{#list mixins}}
+				{{title}}: {{scheme}}{{term}}
+				{{/list}}
+				</script>
+			</ul>
 
-	</div>
+			<h4>Actions</h4>
+			<ul id="actions">
+				<script type="text/x-handlebars-template" id="tpl-actions">
+				{{#list actions}}
+				{{title}}: {{scheme}}{{term}}
+				{{/list}}
+				</script>
+			</ul>
+		
+		</div>
 	
+		<div class="col-md-8">
 	
-      </div>
-    </div>
+			<h3>Resources</h3>
+			<form method="post" action="" class="form-inline" id="addResource" class="form-inline">
+				<input type="text" name="description" id="resource_description" placeholder="Description" class="form-control" />
+				<input type="submit" name="add" value="Add Resource" class="form-control" />
+			</form>
+		
+			<h5>Resources for this category:</h5>
+			<ul id="resources"></ul>
+			<script type="text/x-handlebars-template" id="tpl-resources">
+			{{#list resources}}
+			{{link}}
+			{{/list}}
+			</script>
+		
+		</div>
+	
+	</div><!-- .row -->
+	</div><!-- .data -->
+	
+	<footer>
+		<p><a href="https://github.com/lizenn/occi-js">https://github.com/lizenn/occi-js</a></p>
+	</footer>
 
-    <script src="js/app.js" type="text/javascript" ></script>
-  </body>
+</div><!-- #page -->
+
+<script src="js/app.js" type="text/javascript" ></script>
+
+</body>
 </html>
