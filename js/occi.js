@@ -31,6 +31,9 @@ var occi = {};
 				// Build up the array of kinds
 				for (i=0, j=data['kinds'].length; i<j; i++) {
 					occi.kinds.push(data['kinds'][i]);
+					
+					// Checking attributes
+					//console.log(data['kinds'][i]['attributes']['occi']);
 				}
 
 				// Build up the array of mixins
@@ -58,8 +61,8 @@ var occi = {};
 		var location = occi.category_location;
 		
 		// FIXME Temporarily remove localdomain from the url
-		location = location.replace('.localdomain', '');
-		console.log("Current URL is: " + location);
+		//location = location.replace('.localdomain', '');
+		//console.log("Current URL is: " + location);
 		
 		// Fetch the resources
 		var jqxhr_resources = $.getJSON(location,

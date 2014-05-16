@@ -37,7 +37,14 @@
 			<ul id="kinds">
 				<script type="text/x-handlebars-template" id="tpl-kinds">
 				{{#list kinds}}
-				<a href="{{location}}" title="{{term}}">{{title}}</a>
+				<a href="{{location}}" title="{{title}}"
+					occi-term="{{term}}"
+					occi-class="{{class}}"
+					occi-title="{{title}}"
+					occi-attributes="{{attributes}}"
+					occi-actions="{{actions}}"
+					occi-location="{{location}}"
+				>{{title}}</a>
 				{{/list}}
 				</script>
 			</ul>
@@ -46,7 +53,7 @@
 			<ul id="mixins">
 				<script type="text/x-handlebars-template" id="tpl-mixins">
 				{{#list mixins}}
-				{{title}}: {{scheme}}{{term}}
+					{{title}}: {{scheme}}{{term}}
 				{{/list}}
 				</script>
 			</ul>
@@ -55,7 +62,7 @@
 			<ul id="actions">
 				<script type="text/x-handlebars-template" id="tpl-actions">
 				{{#list actions}}
-				{{title}}: {{scheme}}{{term}}
+					{{title}}: {{scheme}}{{term}}
 				{{/list}}
 				</script>
 			</ul>
@@ -71,12 +78,14 @@
 			</form>
 		
 			<h5>Resources for this category:</h5>
-			<ul id="resources"></ul>
-			<script type="text/x-handlebars-template" id="tpl-resources">
-			{{#list resources}}
-			{{link}}
-			{{/list}}
-			</script>
+			<ul id="resources">
+				<script type="text/x-handlebars-template" id="tpl-resources">
+				{{#list resources}}
+					<a target="_blank" href="{{link}}">{{link}}</a>
+					{{attributes}}
+				{{/list}}
+				</script>
+			</ul>
 		
 		</div>
 	
