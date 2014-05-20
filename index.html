@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" >
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="occi-js">
 <head>
-	<title>OCCI Test Client</title>
+	<title>occi-js :: OCCI Javascript Client</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-	<script src="js/lib/jquery-1.11.1.min.js" type="text/javascript" ></script>
-	<script src="js/lib/underscore.js" type="text/javascript" ></script>
-	<script src="js/lib/handlebars.js" type="text/javascript" ></script>
-	<script src="js/occi.js" type="text/javascript" ></script>
-
 	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen" /> 
 	<link href="css/custom.css" rel="stylesheet" />
 </head>
-<body>
+<body ng-controller="AppCtrl">
 
 <div class="container">
 
@@ -23,82 +17,67 @@
 		<h2>Javascript OCCI client library</h2>
 	</header>
 		
-		<p>To get started enter the address of your <a href="https://github.com/jeanparpaillon/erocci">Erocci</a> server:</p>
-	<form id="serverForm" action="" method="post" class="form-inline">
-		<input type="text" id="url" name="url" placeholder="occi.example.com" autofocus required="required" value="localhost:8080" class="form-control" />
+	<p>To get started enter the address of your <a href="https://github.com/jeanparpaillon/erocci">Erocci</a> server:</p>
+	<form id="serverForm" action="" method="post" class="form-inline" ng-submit="getCategories()">
+		<input type="text" id="url" name="url" placeholder="occi.example.com" autofocus required="required" value="localhost:8080" class="form-control" ng-model="serverurl" />
 		<input type="submit" id="submit" name="submit" value="Get categories &raquo;" class="form-control" />
 	</form>
 
-	<div class="data">
-	<div class="row">
-	
-		<div class="col-md-4">
-			<h4>Kinds</h4>
-			<ul id="kinds">
-				<script type="text/x-handlebars-template" id="tpl-kinds">
-				{{#list kinds}}
-				<a href="{{location}}" title="{{title}}"
-					occi-term="{{term}}"
-					occi-class="{{class}}"
-					occi-title="{{title}}"
-					occi-attributes="{{attributes}}"
-					occi-actions="{{actions}}"
-					occi-location="{{location}}"
-				>{{title}}</a>
-				{{/list}}
-				</script>
-			</ul>
+	<div class="content">
+		<p ng-hide="data">We will try to fetch OCCI categories from: <strong>http://<span>{{ serverurl }}</span>/-/</strong></p>
+		<div class="row">
+			<div class="col-md-4">
+				<div ng-show="showCategories">
+			
+					<h3>Categories</h3>
+					<h4>Kinds</h4>
+					<ul>
+						<li ng-repeat="kind in data.kinds"><a get-resources data-location="{{ kind.location }}" data-title="{{ kind.title }}">{{ kind.title }}</a></li>
+					</ul>
 
-			<h4>Mixins</h4>
-			<ul id="mixins">
-				<script type="text/x-handlebars-template" id="tpl-mixins">
-				{{#list mixins}}
-					{{title}}: {{scheme}}{{term}}
-				{{/list}}
-				</script>
-			</ul>
+					<h4>Mixins</h4>
+					<ul>
+						<li ng-repeat="mixin in data.mixins">{{ mixin.title }}<!--: {{ mixin.scheme }}{{mixin.term}}--></li>
+					</ul>
 
-			<h4>Actions</h4>
-			<ul id="actions">
-				<script type="text/x-handlebars-template" id="tpl-actions">
-				{{#list actions}}
-					{{title}}: {{scheme}}{{term}}
-				{{/list}}
-				</script>
-			</ul>
-		
-		</div>
+					<h4>Actions</h4>
+					<ul>
+						<li ng-repeat="action in data.actions">{{ action.title }}<!--: {{ action.scheme }}{{action.term}}--></li>
+					</ul>
 	
-		<div class="col-md-8">
-	
-			<h3>Resources</h3>
-			<form method="post" action="" class="form-inline" id="addResource" class="form-inline">
-				<input type="text" name="description" id="resource_description" placeholder="Description" class="form-control" />
-				<input type="submit" name="add" value="Add Resource" class="form-control" />
-			</form>
-		
-			<h5>Resources for this category:</h5>
-			<ul id="resources">
-				<script type="text/x-handlebars-template" id="tpl-resources">
-				{{#list resources}}
-					<a target="_blank" href="{{link}}">{{link}}</a>
-					{{attributes}}
-				{{/list}}
-				</script>
-			</ul>
-		
-		</div>
-	
-	</div><!-- .row -->
-	</div><!-- .data -->
-	
-	<footer>
-		<p><a href="https://github.com/lizenn/occi-js">https://github.com/lizenn/occi-js</a></p>
-	</footer>
+				</div>
+			</div>
 
+			<div class="col-md-8">
+				<div ng-show="showResources" class="resources">
+		
+					<h3>Resources</h3>
+					<form method="post" action="" class="form-inline" id="addResource" ng-submit="addResource()">
+						<input type="text" name="description" id="resource_description" placeholder="Description" class="form-control" />
+						<button class="btn btn-primary">Add resource</button>
+					</form>
+	
+					<h5>List of resources for {{ category_title || "this category"}}:</h5>
+					<ul>
+						<li ng-hide="resources">No resources for this category!</li>
+						<li ng-repeat="resource in resources track by $index">
+							<button class="btn btn-info pull-right" data-location="{{ resource }}">Details</button>
+							<button class="btn btn-danger pull-right" data-location="{{ resource }}" delete-resource>Delete</button>
+							<a data-location="{{ resource }}" get-resource-details>{{ resource }}</a><br />
+							<!--<p ng-show="resourcedetails">{{ resourcedetails }}</p>-->
+						</li>
+					</ul>
+	
+				</div>
+			</div>
+		</div><!-- .row -->
+	</div><!-- .content -->
+	
 </div><!-- #page -->
-
-<script src="js/app.js" type="text/javascript" ></script>
+<!--<script src="scripts/vendor/jquery/jquery.min.js"></script>-->
+<script src="scripts/vendor/angular/angular.min.js"></script>
+<script src="scripts/lib/occi-js/controllers.js"></script>
+<script src="scripts/lib/occi-js/directives.js"></script>
 
 </body>
 </html>

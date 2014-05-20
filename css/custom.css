@@ -1,11 +1,6 @@
-/*
- * CSS for occi-js example
- */
-@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro);
-
  body {
+ 	font-family: 1em/1.7em sans-serif;
  	background-color: #f9f9f9;
- 	font-family: "Source Sans Pro", sans-serif;
  }
  h1 {
  	margin: 1.5em 0 0;
@@ -20,27 +15,55 @@
  	margin: 0 0 0.5em 0;
  }
  h3 {
+ 	margin: 0 0 1em;
+ }
+ [ng-show="showResources"] h3 {
  	margin: 0;
 } 
 h5 {
 	font-weight: bold;
 }
-.data {
+.content {
 	margin-top: 3em;
-	padding: 2em;
+	padding: 2.5em 2em;
 	border: 1px solid #ddd;
 	background-color: #fff;
 }
-ul {
-	margin: 0 0 1em 0;
+.content p:first-child {
+	margin: 2em;
+	text-align: center;
+	color: #999;
+}
+.content p:first-child strong {
+	display: block;
+	margin: 1em;
+	font-size: 1.5em;
+	color: #aaa;
+	letter-spacing: 0.1em;
+}
+.content p:first-child strong span {
+	color: #666;
+}
+form p {
+	margin-top: 0.5em;
+	color: #777;
+}
+.resources ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+.resources li {
+	margin: 0;
+	padding: 0.5em;
+	border-bottom: 1px solid #eee;
+}
+.resources li:hover {
+	background-color: #f7f7f7;
+}
+.resources button {
+	margin-left: 0.5em;
 }
 #addResource {
 	margin: 1em 0 2em;
-}
-footer {
-	margin: 1em;
-	text-align: center;
-}
-footer a {
-	color: #999;
 }
