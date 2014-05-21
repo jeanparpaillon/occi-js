@@ -19,6 +19,7 @@
 		
 	<p>To get started enter the address of your <a href="https://github.com/jeanparpaillon/erocci">Erocci</a> server:</p>
 	<form id="serverForm" action="" method="post" class="form-inline" ng-submit="getCategories()">
+		<p class="error" ng-show="error">{{ error }}</p>
 		<input type="text" id="url" name="url" placeholder="occi.example.com" autofocus required="required" value="localhost:8080" class="form-control" ng-model="serverurl" />
 		<input type="submit" id="submit" name="submit" value="Get categories &raquo;" class="form-control" />
 	</form>

@@ -19,6 +19,7 @@ occi.controller('AppCtrl', function ($scope, $http, $attrs) {
 			$scope.data = data;
 			//console.log(data);
 		}).error(function(data, status) {
+			$scope.error = "Impossible to connect to the server!";
 			console.log(status);
 		});
 		

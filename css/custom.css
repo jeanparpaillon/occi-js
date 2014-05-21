@@ -48,6 +48,11 @@ form p {
 	margin-top: 0.5em;
 	color: #777;
 }
+p.error {
+	margin: 1em 0;
+	color: red;
+	font-weight: bold;
+}
 .resources ul {
 	margin: 0;
 	padding: 0;
