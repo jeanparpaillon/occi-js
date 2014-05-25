@@ -1,4 +1,4 @@
-occi.directive('getResources', function() {
+lizennApp.directive('getResources', function() {
 	return {
 		restrict: 'AE',
 		link: function(scope, elem, attrs) {
@@ -14,7 +14,7 @@ occi.directive('getResources', function() {
 	};
 });
 
-occi.directive('getResourceDetails', function() {
+lizennApp.directive('getResourceDetails', function() {
 	return {
 		restrict: 'AE',
 		link: function(scope, elem, attrs) {
@@ -30,7 +30,7 @@ occi.directive('getResourceDetails', function() {
 	};
 });
 
-occi.directive('deleteResource', function() {
+lizennApp.directive('deleteResource', function() {
 	return {
 		restrict: 'AE',
 		link: function(scope, elem, attrs) {
