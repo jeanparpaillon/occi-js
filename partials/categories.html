@@ -1,0 +1,15 @@
+<h3>Categories</h3>
+<h4>Kinds</h4>
+<ul>
+	<li ng-repeat="kind in data.kinds"><a ng-click="getResources(kind.location, kind.title)">{{ kind.title }}</a></li>
+</ul>
+
+<h4>Mixins</h4>
+<ul>
+	<li ng-repeat="mixin in data.mixins">{{ mixin.title }}<!--: {{ mixin.scheme }}{{mixin.term}}--></li>
+</ul>
+
+<h4>Actions</h4>
+<ul>
+	<li ng-repeat="action in data.actions">{{ action.title }}<!--: {{ action.scheme }}{{action.term}}--></li>
+</ul>

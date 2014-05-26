@@ -17,11 +17,14 @@
  h3 {
  	margin: 0 0 1em;
  }
- [ng-show="showResources"] h3 {
+[ng-show="showResources"] h3 {
  	margin: 0;
 } 
 h5 {
 	font-weight: bold;
+}
+a {
+	cursor: pointer;
 }
 .content {
 	margin-top: 3em;

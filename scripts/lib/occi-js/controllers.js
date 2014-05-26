@@ -1,6 +1,6 @@
-var lizennApp = angular.module('occi-js', []);
+var occiApp = angular.module('occi-js', []);
 
-lizennApp.config(function($logProvider){
+occiApp.config(function($logProvider){
 
 	// Turn debugging output to console on (true) or off (false)
 	$logProvider.debugEnabled(false);
@@ -8,7 +8,7 @@ lizennApp.config(function($logProvider){
 });
 
 // Here we declared a controller called occiCtrl and registered it in an AngularJS module, lizennApp
-lizennApp.controller('occiCtrl', function ($scope, $http, $attrs, $log) {
+occiApp.controller('occiCtrl', function ($scope, $http, $attrs, $log) {
 
 	// Set default headers for GET requests
 	$http.defaults.headers.get = { 'Accept': 'application/json' };
@@ -48,7 +48,7 @@ lizennApp.controller('occiCtrl', function ($scope, $http, $attrs, $log) {
 		
 	};
 	
-	// Get resources
+	// Get a list of resources from a category
 	$scope.getResources = function(location, title) {
 	
 		// Show the resources element
@@ -58,7 +58,7 @@ lizennApp.controller('occiCtrl', function ($scope, $http, $attrs, $log) {
 		$scope.resourcesLocation = location;
 		
 		// Update the resource title with the selected category
-		$scope.category_title = title;
+		$scope.categoryTitle = title;
 		
 		// Fecth resources
 		$http.get(location)
@@ -75,9 +75,8 @@ lizennApp.controller('occiCtrl', function ($scope, $http, $attrs, $log) {
 			});
 	};
 	
-	// Get a resource's details
+	// Get a resource's details using its location (url)
 	$scope.getResourceDetails = function(location) {
-		$scope.resourceLocation = location; // FIXME Why was that?
 		$http.get(location)
 			.success(function(data) {
 			
@@ -92,7 +91,7 @@ lizennApp.controller('occiCtrl', function ($scope, $http, $attrs, $log) {
 			});
 	};
 	
-	// Delete a resource
+	// Delete a resource using its location (url)
 	$scope.deleteResource = function(location) {
 		$http.delete(location)
 			.success(function(data) {

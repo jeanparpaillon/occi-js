@@ -1,3 +1,7 @@
+/*
+
+Unused - Keep this for learning purposes
+
 lizennApp.directive('getResources', function() {
 	return {
 		restrict: 'AE',
@@ -6,9 +10,6 @@ lizennApp.directive('getResources', function() {
 				scope.$apply(function() {
 					scope.getResources(attrs.location, attrs.title);
 				});
-			});
-			elem.bind('mouseover', function() {
-				elem.css('cursor', 'pointer');
 			});
 		}
 	};
@@ -23,9 +24,6 @@ lizennApp.directive('getResourceDetails', function() {
 					scope.getResourceDetails(attrs.location);
 				});
 			});
-			elem.bind('mouseover', function() {
-				elem.css('cursor', 'pointer');
-			});
 		}
 	};
 });
@@ -39,9 +37,7 @@ lizennApp.directive('deleteResource', function() {
 					scope.deleteResource(attrs.location);
 				});
 			});
-			elem.bind('mouseover', function() {
-				elem.css('cursor', 'pointer');
-			});
 		}
 	};
 });
+*/

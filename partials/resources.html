@@ -1,0 +1,21 @@
+<h3>Resources</h3>
+<form method="post" action="" class="form-inline" id="addResource" ng-submit="addResource()">
+	<input type="text" name="description" id="resource_description" placeholder="Description" class="form-control" />
+	<button class="btn btn-primary">Add resource</button>
+</form>
+
+<h5 ng-show="resources">List of resources for {{ categoryTitle || "this category"}}:</h5>
+<p ng-hide="resources" class="alert alert-info">No resources in the category!</p>
+<ul>
+	<li ng-repeat="resource in resources track by $index">
+	
+		<!-- Button to make a call to receive a resource's details -->
+		<button class="btn btn-info pull-right" ng-click="getResourceDetails(resource)" data-toggle="modal" data-target="#resourceDetails">Details</button>
+
+		<!-- Button to delete a resource -->
+		<button class="btn btn-danger pull-right" ng-click="deleteResource(resource)">Delete</button>
+
+		{{ resource }}
+		
+	</li>
+</ul>
