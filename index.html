@@ -8,50 +8,81 @@
 	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen" /> 
 	<link href="css/style.css" rel="stylesheet" media="screen" />
 </head>
-<body ng-controller="occiCtrl">
+<body>
 
-<div class="container">
-
+<div class="container" ng-controller="connCtrl"><!-- Begin-->
 	<header>
 		<h1>occi-js</h1>
-		<h2>Javascript OCCI client library</h2>
+		<h2>Javascript OCCI XMPP client</h2>
 	</header>
-		
-	<p>To get started enter the address of your <a href="https://github.com/jeanparpaillon/erocci">Erocci</a> server:</p>
-	<form id="serverForm" action="" method="post" class="form-inline" ng-submit="getCategories()">
-		<input type="text" id="url" name="url" placeholder="occi.example.com" autofocus required="required" value="localhost:8080" class="form-control" ng-model="serverurl" />
-		<input type="submit" id="submit" name="submit" value="Get categories &raquo;" class="form-control" />
-		<p class="alert alert-danger" ng-show="error.serverConnection">Impossible to connect to the server. Tried starting it?</p>
-	</form>
+ <div ng-controller="loginCtrl as login"><!-- login Bloc -->
+	<!-- Two interface for XMPP and HTTP -->
+	 <div class="Menu" >
+      <fieldset>
+        <legend>Services</legend>
+          <input type="radio" id="xmpps" name="service" ng-change="showHttp=!showHttp" ng-model="showXmpp" ng-value="xmpps"><label for="xmpps">XMPP</label><br/>
+          <input type="radio" id="http" name="service" ng-change="showXmpp=!showXmpp" ng-model="showHttp" value="http"><label for="http">HTTP</label>
+          <button type="submit" id="submit" class="btn btn-lg btn-primary btn-block" ng-model="disconnect" ng-click="login.disconnect()">Disconnect</button>
+      </fieldset>
+      </div>
+      <br/>
 
-	<div class="content">
-		<p ng-hide="data">We will try to fetch OCCI categories from: <strong>http://<span>{{ serverurl }}</span>/-/</strong></p>
-		<div class="row">
+  <div  ng-show="showXmpp==xmpps" >
+    <!-- <form class="form-signin" ng-submit="login.connect()"> -->
+    <form class="form-signin" ng-submit="login.connect()">
+      <fieldset>
+        <legend>XMPP Account</legend>
+          <input type="text" autofocus required="required"  class="form-control" id="jid" name="jid" ng-model="jidModel" placeholder="JID"/>
+          <input type="password" id="pass" name="pass" ng-model="passModel" autofocus required="required"  class="form-control" placeholder="Password"/><br/>
+          <button type="submit" id="submit" class="btn btn-lg btn-primary btn-block" >Get categories &raquo;</button>
+          <!-- <p class="alert alert-danger" ng-show="error.serverConnection">Impossible to connect to the server. Tried starting it?</p> -->
+      </fieldset>
+    </form>
+  </div>
+  <br/>
 
-			<div class="col-md-4">
-				<div ng-show="showCategories" ng-include="'partials/categories.html'"></div>
-			</div>
+  <div  ng-show="showHttp=='http'">
+    <form class="form-signin" role="form">
+      <fieldset>
+        <legend>HTTP Account</legend>
+        <input type="text" id="url" name="url" placeholder="localhost:8080" autofocus required="required" value="localhost:8080" class="form-control" ng-model="serverurl" /><br/>
+        <button type="submit" id="submit" class="btn btn-lg btn-primary btn-block">Get categories &raquo;</button>
+      </fieldset>
+    </form>
+  </div>
+  <br/>
 
-			<div class="col-md-8">
-				<div ng-show="showResources" class="resources" ng-include="'partials/resources.html'"></div>
-			</div>
-			
-		</div><!-- .row -->
-	</div><!-- .content -->
+</div><!-- login Bloc-->
 
-	<!-- Modal showing the resource details -->
-	<div class="modal fade" id="resourceDetails" tabindex="-1" role="dialog" aria-labelledby="resourceDetailsLabel" aria-hidden="true" ng-include="'partials/resourceDetails.html'"></div>
 
-</div><!-- #page -->
+<div class="content">
+	<p ng-hide="data">We will try to fetch OCCI categories from: <strong>http://<span>{{ serverurl }}</span>/-/</strong><b>{{ test }}</b></p>
+	<div class="row">
+		<div class="col-md-4">
+			<div ng-show="showCategories" ng-include="'partials/categories.html'"></div>
+		</div>
+	</div><!-- .row -->
+</div><!-- .content -->
+
+</div>
+
+
 
 <!-- Using bootstrap for modals which requires jQuery-->
+<!-- <script src="http://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript" language="javascript"></script>  -->
+<!-- <script src="scripts/lib/occi-js/xml2json.js"></script> -->
 <script src="scripts/vendor/jquery/jquery.min.js"></script>
 <script src="scripts/vendor/bootstrap/bootstrap.min.js"></script>
-
+<script src='scripts/vendor/Strophe/strophe.js'></script>
 <!-- Angular -->
 <script src="scripts/vendor/angular/angular.min.js"></script>
-<script src="scripts/lib/occi-js/controllers.js"></script>
-<script src="scripts/lib/occi-js/directives.js"></script>
+<script src="scripts/vendor/angular/angular-cookies.min.js"></script>
+<script src="scripts/vendor/angular/angular-route.min.js"></script>
+<script src="scripts/lib/occi-js/controllers/occi-xmpp.js"></script>
+<script src="scripts/lib/occi-js/controllers/xmpp.js"></script>
+<script src="scripts/vendor/json/xml2json.js"></script>
 
+<!-- <script src="scripts/lib/occi-js/controllers.js"></script>
+<!<script src="scripts/lib/occi-js/directives.js"></script> -->
 </body>
 </html>

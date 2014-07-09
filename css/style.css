@@ -26,6 +26,16 @@ h5 {
 a {
 	cursor: pointer;
 }
+
+.form-signin {
+    max-width: 330px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.Menu{
+	max-width: 100px;
+}
 .content {
 	margin-top: 3em;
 	padding: 2.5em 2em;
