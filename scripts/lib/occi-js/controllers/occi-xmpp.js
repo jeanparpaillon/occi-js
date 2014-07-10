@@ -4,54 +4,36 @@ var boshServer = 'http://localhost:5280/http-bind';
 
 
 
-app.service('myService',['xmpp','xmppService', function(xmpp, xmppService) {
-		this.start=function()
+app.factory('myService',['$q', 'xmpp','xmppService', 'xmppSession', function($q, xmpp, xmppService, xmppSession) {
+	return {	
+		start:function()
 		{
+				// var deffered=$q.defer();
 				var service=xmppService.create();
 				angular.extend(service,{
 
 				onConnection:function(conn)
 				{
 					console.log("I m in OnConnection");
-					var reqID=this.getCapabilities(conn);
-					conn.addHandler(this.printResponse, null, "iq", null, reqID);
+					this.getResource(conn);
 				},
 
 				// Get a list of resources
-				getCapabilities:function(conn)
+				getResource:function(conn)
 				{
-				    var request=$iq({to:"admin@localhost/erocci", type:"get", id:"req1"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", node:"/store/myresources/json/compute/f8f5064e-ddea-4b2d-bc32-686357325b83"});
+				    var request=$iq({to:"admin@localhost/erocci", type:"get", id:"getResource"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", node:"/store/myresources/json/compute/f8f5064e-ddea-4b2d-bc32-686357325b83"});
+				    conn.addHandler(this.printResponse, null, "iq", null, "getResource");
 				    conn.send(request);
-				    console.log("I m in getCategories");
-				    
-				    return "req1";
+				    console.log("I'm in getResource");
 				},
 
+				//Get one resource				
 				printResponse:function(iq)
 				{	
-					
 					console.log("print Response : ");
 					var json = xml2json($(iq).context);
 				    myJson=jQuery.parseJSON(json);
-				    // var textJson=JSON.stringify(json);
-					// var xmlData=$(iq).context;
 					console.log(json);
-					console.log(myJson.iq.query.resource);
-					
-				 	// myData=myJson.iq.query.resource;
-				
-
-				 	// promise.then(function(data)
-				 	// {
-
-				 	// });
-					// console.log(myJson.iq.query.resource.title);
-
-				},
-				
-				showData:function(myData)
-				{
-					console.log("Title of resource : "+myData.title);
 				},
 
 				// print results of a collection
@@ -69,17 +51,25 @@ app.service('myService',['xmpp','xmppService', function(xmpp, xmppService) {
 			   		console.log("show Result : "+listAttribute[0]);
 		   		}
 		   	});
-	
-	return service.data;
-		}
+		},
+
+	 showResults:function()
+	 {
+	 	console.log("SHOW...");
+	 	console.log(xmppSession.data.title);
+	 }
+	}
 }]);
 
-app.controller('connCtrl',function($rootScope, myService)
+app.controller('connCtrl',['$scope', 'xmppSession', 'myService', function($scope, xmppSession, myService)
 {
-	var serv=myService.start();
+	myService.start();
+	// myService.showResults();
+		
+	// console.log("Title of resource : "+xmppSession.data.title);
 	// console.log("DATA : "+serv);
 	// console.log("Print data : "+serv.getData());
 	// $scope.data=myData;
 	// $scope.showCategories=true;
-});
+}]);
 
