@@ -25,45 +25,56 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 				getCapabilities:function()
 				{
 					// node:"/store/myresources/json/compute/f8f5064e-ddea-4b2d-bc32-686357325b83"
-				    var request=$iq({to:"admin@localhost/erocci", type:"get", id:"getResource"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", node:"/store"});
+				    var request=$iq({to:"admin@localhost/erocci", type:"get", id:"getCapa"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", type:"caps"});
 				    connection.send(request);
-				    connection.addHandler(service.printResponse, null, "iq", null, "getResource");
-
+				    connection.addHandler(service.printResponse, null, "iq", null, "getCapa");
 				},
-
 				printResponse:function(iq)
 				{
-   					$(iq).find('entity').each(function(index)
-   					{
-   						var url="/"+Strophe.getResourceFromJid($(this).attr('xl:href'));
-		   				var req="Req"+index;
-		   				var request2=$iq({to:"admin@localhost/erocci", type:"get", id:req}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", node:url});
-		   				connection.send(request2);
-		   				connection.addHandler(service.showResult, null, "iq", null, req);
-		   				// console.log($(iq).find('entity').attr('xl:href'));
-   					});
+   					// $(iq).find('entity').each(function(index)
+   					// {
+   					// 	var url="/"+Strophe.getResourceFromJid($(this).attr('xl:href'));
+		   			// 	var req="Req"+index;
+		   			// 	var request2=$iq({to:"admin@localhost/erocci", type:"get", id:req}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", node:url});
+		   			// 	connection.send(request2);
+		   			// 	connection.addHandler(service.showResult, null, "iq", null, req);
+		   			// 	// console.log($(iq).find('entity').attr('xl:href'));
+   					// });
+					var node=($(iq).find('capabilities')[0]);
+					// console.log(node);
+			   		var json = xml2json(node);
+				    var resultJson=JSON.stringify(json);
+				    var myJson=jQuery.parseJSON(resultJson);
+					console.debug(resultJson);
+					$rootScope.$apply(function()
+				    {
+				    	deffered.resolve(myJson);
+				    });
 					
-					return true;
+					return false;
 				},
 
 				// print results of a collection
 			    showResult:function(iq)
 				{
 					console.log("I m in showResult");
+			   		// var kind=$(iq).find('kind');	
 			   		// var listAttribute=new Array();
 
 			   		// var attribute=$(iq).find('attribute').each(function(index)
 			   		// {
 			   		// 	listAttribute[index]=$(this).attr('value');
 			   		// });
-			   		// console.log("show Result : "+listAttribute[0]);
-			   		var json = xml2json($(iq).context);
-				    var myJson=jQuery.parseJSON(json);
-					console.log(json);
-					$rootScope.$apply(function()
-				    {
-				    	deffered.resolve(json);
-				    });
+			   		console.log("show Result : "+listAttribute[0]);
+			   		// var resource=$(iq).find('resource');
+   					// var XML=loadXMLDoc("data.xml"); 
+			   		// var json = xml2json(XML);
+				    // var myJson=jQuery.parseJSON(json);
+					console.log(JSON.stringify(json));
+					// $rootScope.$apply(function()
+				 //    {
+				 //    	deffered.resolve(json);
+				 //    });
 		   		}
 		   	});
 		return deffered.promise;
@@ -75,9 +86,17 @@ app.controller('connCtrl',['$scope', 'xmppSession', 'myService', function($scope
 {
 	myService.start().then(function(result)
 	{
-		// console.log("Data : "+result);
 		$scope.data=result;
 		$scope.showCategories=true;
 	});
+	// myService.start();
+
+	// myService.showResults();
+		
+	// console.log("Title of resource : "+xmppSession.data.title);
+	// console.log("DATA : "+serv);
+	// console.log("Print data : "+serv.getData());
+	// $scope.data=myData;
+	// $scope.showCategories=true;
 }]);
 
