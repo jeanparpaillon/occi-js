@@ -1,4 +1,11 @@
+/*
+ Author : Brahim MOUNTASSIR
+ */
 
+ /*
+ Fonction xml2json
+ parameter: xml data
+*/
 
 function xml2json(xml) {
       // Create the return object
