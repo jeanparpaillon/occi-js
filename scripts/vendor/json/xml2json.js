@@ -113,3 +113,31 @@ function xmlToJson(xml)
       }
       return obj;
 }
+
+
+// Convert xml data (resources) to Json
+function xmlJson(xml)
+{
+      var obj = {};
+      if (xml.nodeType == 1) { 
+            if (xml.attributes.length > 0) {
+                  for (var j = 0; j < xml.attributes.length; j++) {
+                        var attribute = xml.attributes.item(j);
+                        obj[attribute.nodeName]= attribute.nodeValue;
+                  }
+            }
+    }
+
+      if (xml.hasChildNodes()){
+            for(var i = 0; i < xml.childNodes.length; i++) {
+                  var item = xml.childNodes.item(i);
+                  obj[item.nodeName]=[];
+                  obj[item.nodeName].push(xmlJson(item));
+            }
+      }
+      return obj;
+}
+
+
+
+

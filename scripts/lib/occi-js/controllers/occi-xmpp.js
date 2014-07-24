@@ -10,20 +10,16 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 				var deffered=$q.defer();
 				var service=xmppService.create();
 				angular.extend(service,{
-				// myData:{},
 
 				onConnection:function(conn)
 				{
 					connection=conn;
-					console.log("I m in OnConnection");
 					this.getCapabilities();
-					// console.log("Ressource : "+this.myData);
 				},
 
 				// Get a list of resources
 				getCapabilities:function()
 				{
-					// node:"/store/myresources/json/compute/f8f5064e-ddea-4b2d-bc32-686357325b83"
 				    var request=$iq({to:"admin@localhost/erocci", type:"get", id:"getCapa"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", type:"caps"});
 				    connection.send(request);
 				    connection.addHandler(service.printCategories, null, "iq", null, "getCapa");
@@ -53,7 +49,6 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 						console.log(location);
 						var resultSplit=location.split('/');
 						var url="/"+resultSplit[1]+"/"+resultSplit[2]+"/";
-						// console.log("/"+resultSplit[length-1]+"/"+resultSplit[length-2]);
 						var request=$iq({to:"admin@localhost/erocci", type:"get", id:"getCol"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", node: url});
 					    connection.send(request);
 					    connection.addHandler(this.printCollection, null, "iq", null, "getCol");
@@ -61,7 +56,6 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 					},
 					printCollection:function(iq)
 					{
-							console.log("I m in printCollection");
 					   		var collection=($(iq).find('collection')[0]);
 					   		var json = xmlToJson(collection);
 							var result=JSON.stringify(json);
@@ -72,6 +66,37 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 							    	deffered.resolve(myJson);
 							    });
 							return false;
+				   	},
+				   	getRessource:function(resource)
+				   	{
+				   		var url=resource.substring(25,resource.length);
+				   		console.log("URL : "+url);
+				   		var request=$iq({to:"admin@localhost/erocci", type:"get", id:"getResource"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", node: url});
+					    connection.send(request);
+					    connection.addHandler(this.printRessource, null, "iq", null, "getResource");
+					    return deffered.promise;
+				   	},
+				   	printRessource:function(iq)
+				   	{
+				   		console.log("printRessource");
+				   		var resource=($(iq).find('resource')[0]);
+				   		var json = xmlJson(resource);
+						var result=JSON.stringify(json);
+						var myJson=jQuery.parseJSON(result);
+						console.log(result);
+						$rootScope.$apply(function()
+						    {
+						    	deffered.resolve(myJson);
+						    });
+						return false;
+				   	}, 
+				   	deleteRessource:function(resource)
+				   	{
+				   		console.log("In deleteRessource");
+				   		var url=resource.substring(25,resource.length);
+				   		var request=$iq({to:"admin@localhost/erocci", type:"set"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", op:"delete", node:url});
+					    connection.send(request);
+					    $route.reload();
 				   	}
 				   }
 		}
@@ -99,7 +124,16 @@ app.controller('connCtrl',['$scope', 'xmppSession', 'myService', function($scope
 
 	$scope.getResourceDetails=function(resource)
 	{
+		// console.log(resource);
+		myService.getRes().getRessource(resource).then(function(result)
+		{	
+			$scope.resourceDetails=result;
+		});
+	}
 
+	$scope.deleteResource=function(resource)
+	{
+		myService.getRes().deleteRessource(resource);
 	}
 }]);
 

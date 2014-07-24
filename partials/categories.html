@@ -6,12 +6,12 @@
 
 <h4>Mixins</h4>
 <ul>
-<li ng-repeat="mixin in data.mixin">{{ mixin.title }}<!--: {{ mixin.scheme }}{{mixin.term}}--></li>
+<li ng-repeat="mixin in data.mixin"><a ng-click="getRessources(mixin.location, mixin.title)">{{ mixin.title }}</a></li>
 </ul>
 
 <h4>Actions</h4>
 <ul>
-<li ng-repeat="action in data.action">{{ action.title }}<!--: {{ action.scheme }}{{action.term}}--></li>
+<li ng-repeat="action in data.action">{{ action.title }}</a></li>
 </ul>
 
 
