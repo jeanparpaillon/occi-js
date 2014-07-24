@@ -87,4 +87,29 @@ function xml2json(xml) {
 
             }
       return obj;
+};
+
+
+
+// Convert xml data (collection) to Json
+function xmlToJson(xml)
+{
+      var obj = {};
+      if (xml.nodeType == 1 && xml.nodeName!="collection") { 
+            if (xml.attributes.length > 0) {
+                  for (var j = 0; j < xml.attributes.length; j++) {
+                        var attribute = xml.attributes.item(j);
+                        obj= attribute.nodeValue;
+                  }
+            }
+    }
+
+      if (xml.hasChildNodes()){
+            obj["resources"]=[];
+            for(var i = 0; i < xml.childNodes.length; i++) {
+                  var item = xml.childNodes.item(i);
+                  obj["resources"].push(xmlToJson(item));
+            }
+      }
+      return obj;
 }

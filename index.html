@@ -27,14 +27,14 @@
       </div>
       <br/>
 
-  <div  ng-show="showXmpp==xmpps" >
+  <div  ng-show="showXmpp==xmpps">
     <!-- <form class="form-signin" ng-submit="login.connect()"> -->
     <form class="form-signin" ng-submit="login.connect()">
       <fieldset>
         <legend>XMPP Account</legend>
           <input type="text" autofocus required="required"  class="form-control" id="jid" name="jid" ng-model="jidModel" placeholder="JID"/>
           <input type="password" id="pass" name="pass" ng-model="passModel" autofocus required="required"  class="form-control" placeholder="Password"/><br/>
-          <button type="submit" id="submit" class="btn btn-lg btn-primary btn-block" >Get categories &raquo;</button>
+          <button type="submit" id="submit" class="btn btn-lg btn-primary btn-block">Get categories &raquo;</button>
           <!-- <p class="alert alert-danger" ng-show="error.serverConnection">Impossible to connect to the server. Tried starting it?</p> -->
       </fieldset>
     </form>
@@ -56,21 +56,25 @@
 
 
 <div class="content">
-	<p ng-hide="data">We will try to fetch OCCI categories from: <strong>http://<span>{{ serverurl }}</span>/-/</strong><b>{{ test }}</b></p>
+	<p ng-hide="data">We will try to fetch OCCI categories from: <strong>http://<span>{{ serverurl }}</span>/-/</strong></p>
 	<div class="row">
 		<div class="col-md-4">
 			<div ng-show="showCategories" ng-include="'partials/categories.html'"></div>
 		</div>
+    <div class="col-md-8">
+      <div ng-show="showResources" class="resources" ng-include="'partials/resources.html'"></div>
+    </div>
 	</div><!-- .row -->
 </div><!-- .content -->
 
-</div>
+<!-- Modal showing the resource details -->
+  <div class="modal fade" id="resourceDetails" tabindex="-1" role="dialog" aria-labelledby="resourceDetailsLabel" aria-hidden="true" ng-include="'partials/resourceDetails.html'"></div>
+ </div>
 
 
 
 <!-- Using bootstrap for modals which requires jQuery-->
 <!-- <script src="http://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript" language="javascript"></script>  -->
-<!-- <script src="scripts/lib/occi-js/xml2json.js"></script> -->
 <script src="scripts/vendor/jquery/jquery.min.js"></script>
 <script src="scripts/vendor/bootstrap/bootstrap.min.js"></script>
 <script src='scripts/vendor/Strophe/strophe.js'></script>
