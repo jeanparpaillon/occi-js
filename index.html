@@ -22,7 +22,6 @@
         <legend>Services</legend>
           <input type="radio" id="xmpps" name="service" ng-change="showHttp=!showHttp" ng-model="showXmpp" ng-value="xmpps"><label for="xmpps">XMPP</label><br/>
           <input type="radio" id="http" name="service" ng-change="showXmpp=!showXmpp" ng-model="showHttp" value="http"><label for="http">HTTP</label>
-          <button type="submit" id="submit" class="btn btn-lg btn-primary btn-block" ng-model="disconnect" ng-click="login.disconnect()">Disconnect</button>
       </fieldset>
       </div>
       <br/>
@@ -35,6 +34,7 @@
           <input type="text" autofocus required="required"  class="form-control" id="jid" name="jid" ng-model="jidModel" placeholder="JID"/>
           <input type="password" id="pass" name="pass" ng-model="passModel" autofocus required="required"  class="form-control" placeholder="Password"/><br/>
           <button type="submit" id="submit" class="btn btn-lg btn-primary btn-block">Get categories &raquo;</button>
+          <button type="submit" id="submit" class="btn btn-lg btn-primary btn-block" ng-model="disconnect" ng-click="login.disconnect()">Disconnect</button>
           <!-- <p class="alert alert-danger" ng-show="error.serverConnection">Impossible to connect to the server. Tried starting it?</p> -->
       </fieldset>
     </form>
@@ -45,8 +45,9 @@
     <form class="form-signin" role="form">
       <fieldset>
         <legend>HTTP Account</legend>
-        <input type="text" id="url" name="url" placeholder="localhost:8080" autofocus required="required" value="localhost:8080" class="form-control" ng-model="serverurl" /><br/>
+        <input type="text" id="url" name="url"  autofocus required="required" value="localhost:8080" class="form-control" ng-model="serverurl" /><br/>
         <button type="submit" id="submit" class="btn btn-lg btn-primary btn-block">Get categories &raquo;</button>
+
       </fieldset>
     </form>
   </div>
@@ -56,7 +57,7 @@
 
 
 <div class="content">
-	<p ng-hide="data">We will try to fetch OCCI categories from: <strong>http://<span>{{ serverurl }}</span>/-/</strong></p>
+	<p ng-hide="data">We will try to fetch OCCI categories from: <strong><span>{{ serverurl }}</span></strong></p>
 	<div class="row">
 		<div class="col-md-4">
 			<div ng-show="showCategories" ng-include="'partials/categories.html'"></div>

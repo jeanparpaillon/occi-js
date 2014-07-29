@@ -1,17 +1,17 @@
 <h3>Categories</h3>
 <h4>Kinds</h4>
 <ul>
-<li ng-repeat="kind in data.kind"><a ng-click="getRessources(kind.location, kind.title)">{{ kind.title }}</a></li>
+<li ng-repeat="kind in data.kinds"><a ng-click="getResources(kind.location, kind.title)">{{ kind.title }}</a></li>
 </ul>
 
 <h4>Mixins</h4>
 <ul>
-<li ng-repeat="mixin in data.mixin"><a ng-click="getRessources(mixin.location, mixin.title)">{{ mixin.title }}</a></li>
+<li ng-repeat="mixin in data.mixins"><a ng-click="getResources(mixin.location, mixin.title)">{{ mixin.title }}<!--: {{ mixin.scheme }}{{mixin.term}}--></a></li>
 </ul>
 
 <h4>Actions</h4>
 <ul>
-<li ng-repeat="action in data.action">{{ action.title }}</a></li>
+<li ng-repeat="action in data.actions">{{ action.title }}<!--: {{ action.scheme }}{{action.term}}--></a></li>
 </ul>
 
 
