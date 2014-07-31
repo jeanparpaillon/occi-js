@@ -5,13 +5,29 @@
 			<h4 class="modal-title" id="resourceDetailsLabel">Resource details</h4>
 		</div>
 		<div class="modal-body">
-			<!-- <ul ng-repeat="detail in resourceDetails">
-					<li>Kind : {{ detail }}</li>
-			</ul> -->
-			{{ resourceDetails }}
+			<ul ng-repeat="detail in resourceDetails.resource">
+					<li>Id : {{ detail.id }}</li>
+					<li>Kind : {{ detail.kind }}</li>
+					<ul ng-repeat="mixin in detail.mixins">
+						<li>Mixin : {{ mixin }}</li>
+					</ul>
+					<li>Attributes : {{ detail.attributes }}</li>
+					
+			</ul>
+			<ul ng-repeat="detail in resourceDetails.link">
+					<li>Id : {{ detail.id }}</li>
+					<li>Kind : {{ detail.kind }}</li>
+					<ul ng-repeat="mixin in detail.mixins">
+						<li>Mixin : {{ mixin }}</li>
+					</ul>
+					<li>Attributes : {{ detail.attributes }}</li>
+					<li>Source : {{ detail.source }}</li>
+					<li>Target : {{ detail.target }}</li>
+			</ul>
+			<!-- {{ resourceDetails }} -->
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
 		</div>
 	</div>
 </div>

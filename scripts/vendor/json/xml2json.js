@@ -115,13 +115,13 @@ function xmlResourcesToJson(xml)
       var obj = {};
       if (xml.nodeType == 1) { 
             var name=xml.nodeName;
-            // if (xml.attributes.length > 0 && name!="query") {
-            //       for (var j = 0; j < xml.attributes.length; j++) {
-            //             var attribute = xml.attributes.item(j);
-            //             if(attribute.nodeName!="xmlns:xl" && attribute.nodeName!="xmlns" && attribute.nodeName!="term")
-            //                    obj[attribute.nodeName]= attribute.nodeValue;
-            //       }
-            // }
+            if (xml.attributes.length > 0 && name!="query") {
+                  for (var j = 0; j < xml.attributes.length; j++) {
+                        var attribute = xml.attributes.item(j);
+                        if(attribute.nodeName=="id")
+                               obj[attribute.nodeName]= attribute.nodeValue;
+                  }
+            }
     }
 
       if (xml.hasChildNodes()){
@@ -142,6 +142,12 @@ function xmlResourcesToJson(xml)
             for(var i = 0; i < xml.childNodes.length; i++) {
                   var item = xml.childNodes.item(i);
                   nodeName=item.nodeName;
+                  if(xml.nodeName=="resource")
+                  {
+                        if(nodeName=="link")
+                              break;
+                  }
+                  
                   if(nodeName!="attribute")
                   {
                         console.log("nodeName different from attribute : "+nodeName);
@@ -158,15 +164,14 @@ function xmlResourcesToJson(xml)
                               obj[name].push(attribute.item(0).nodeValue+attribute.item(1).nodeValue);
                         }
                         else if(typeof(obj[nodeName]) == "undefined"){
-
-                                    obj[nodeName] = xmlCapabilitiesToJson(item);    
+                                    obj[nodeName] = xmlResourcesToJson(item);    
                               }else{
                                     if (typeof(obj[nodeName].push) == "undefined") {
                                           var old = obj[nodeName];
                                           obj[nodeName] = [];
                                           obj[nodeName].push(old);
                                     }
-                                    obj[nodeName].push(xmlCapabilitiesToJson(item));
+                                    obj[nodeName].push(xmlResourcesToJson(item));
                               }
                   }else{
                               var name=item.attributes.item(0).nodeValue;

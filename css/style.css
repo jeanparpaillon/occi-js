@@ -85,3 +85,23 @@ p.error {
 #addResource {
 	margin: 1em 0 2em;
 }
+
+.kind{
+    width: 150px;
+    padding: 10px 20px;
+    background-color: #EEE;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: #888;
+}
+
+
+.navbar-brand small {
+  display:block;
+  font-size:12px;
+}
+
+.navbar-form{
+    text-align:center;
+}
+

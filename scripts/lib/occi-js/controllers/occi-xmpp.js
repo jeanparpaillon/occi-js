@@ -2,6 +2,8 @@ angular.module('occi-js.xmpp',[]);
 var app = angular.module('occi-js', ['occi-js.xmpp','ngRoute']);
 var boshServer = 'http://localhost:5280/http-bind';
 var connection=null;
+var categories;
+
 
 app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession', function($q, $rootScope, xmpp, xmppService, xmppSession) {
 	return {	
@@ -15,6 +17,12 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 				{
 					connection=conn;
 					this.getCapabilities();
+					$rootScope.online=true;
+				},
+
+				onDisconnection:function()
+				{
+					$rootScope.online=false;
 				},
 
 				// Get a list of resources
@@ -27,13 +35,13 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 				printCapabilities:function(iq)
 				{
 					var node=($(iq).find('capabilities')[0]);
-			   		var json = xmlCapabilitiesToJson(node);
-				    var resultJson=JSON.stringify(json);
-				    var myJson=jQuery.parseJSON(resultJson);
-					console.debug(resultJson);
+			   		var jsonCapabilities = xmlCapabilitiesToJson(node);
+				    var capabilitiesString=JSON.stringify(jsonCapabilities);
+				    categories=jQuery.parseJSON(capabilitiesString);
+					console.debug(capabilitiesString);
 					$rootScope.$apply(function()
 				    {
-				    	deffered.resolve(myJson);
+				    	deffered.resolve(categories);
 				    });
 					
 					return false;
@@ -57,13 +65,13 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 					printCollections:function(iq)
 					{
 					   		var collection=($(iq).find('collection')[0]);
-					   		var json = xmlCollectionsToJson(collection);
-							var result=JSON.stringify(json);
-							var myJson=jQuery.parseJSON(result);
-							console.log(result);
+					   		var jsonCollections = xmlCollectionsToJson(collection);
+							var collectionString=JSON.stringify(jsonCollections);
+							var collections=jQuery.parseJSON(collectionString);
+							console.log(collectionString);
 							$rootScope.$apply(function()
 							    {
-							    	deffered.resolve(myJson);
+							    	deffered.resolve(collections);
 							    });
 							return false;
 				   	},
@@ -80,13 +88,13 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 				   	{
 				   		console.log("printRessource");
 				   		var resource=($(iq).find('query')[0]);
-				   		var json = xmlResourcesToJson(resource);
-						var result=JSON.stringify(json);
-						var myJson=jQuery.parseJSON(result);
-						console.log(result);
+				   		var jsonResource = xmlResourcesToJson(resource);
+						var resourceString=JSON.stringify(jsonResource);
+						var resources=jQuery.parseJSON(resourceString);
+						console.log(resourceString);
 						$rootScope.$apply(function()
 						    {
-						    	deffered.resolve(result);
+						    	deffered.resolve(resources);
 						    });
 						return false;
 				   	}, 
@@ -103,13 +111,16 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 }]);
 
 
-app.controller('connCtrl',['$scope', 'xmppSession', 'myService', function($scope, xmppSession, myService)
+app.controller('connCtrl',['$scope', 'xmpp', 'xmppSession', 'myService', function($scope, xmpp, xmppSession, myService)
 {
 	$scope.serverurl="admin@localhost/erocci";
+	
+	// Retrieve capabilities
 	myService.start().then(function(result)
 	{
 		$scope.data=result;
 		$scope.showCategories=true;
+
 	});
 
 	$scope.getResources=function(location, title)
@@ -136,5 +147,8 @@ app.controller('connCtrl',['$scope', 'xmppSession', 'myService', function($scope
 	{
 		myService.getDetails().deleteResourceController(resource);
 	}
+
+	
+
 }]);
 

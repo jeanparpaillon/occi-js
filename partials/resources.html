@@ -1,7 +1,7 @@
 <h3>Resources</h3>
 <form method="post" action="" class="form-inline" id="addResource" ng-submit="addResource()">
 	<input type="text" name="description" id="resource_description" placeholder="Description" class="form-control" />
-	<button class="btn btn-primary">Add resource</button>
+	<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#resourceAttribute">Add resource</button>
 </form>
 
 <h5 ng-show="resources">List of resources for {{ categoryTitle || "this category"}}:</h5>
@@ -10,10 +10,13 @@
 	<li ng-repeat="resource in resources track by $index">
 	
 		<!-- Button to make a call to receive a resource's details -->
-		<button class="btn btn-info pull-right" ng-click="getResourceDetails(resource)" data-toggle="modal" data-target="#resourceDetails">Details</button>
+		<button class="btn btn-sm btn-info pull-right" ng-click="getResourceDetails(resource)" data-toggle="modal" data-target="#resourceDetails">Details</button>
 
 		<!-- Button to delete a resource -->
-		<button class="btn btn-danger pull-right" ng-click="deleteResource(resource)">Delete</button>
+		<button class="btn btn-sm btn-danger pull-right" ng-click="deleteResource(resource)">Delete</button>
+
+		<!-- Button to update a resource -->
+		<button class="btn btn-sm btn-default pull-right" ng-click="updateResource(resource)" data-toggle="modal" data-target="#resourceAttributes">Update</button>
 
 		{{ resource }}
 		

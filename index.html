@@ -11,47 +11,40 @@
 <body>
 
 <div class="container" ng-controller="connCtrl"><!-- Begin-->
-	<header>
-		<h1>occi-js</h1>
-		<h2>Javascript OCCI client</h2>
-	</header>
- <div ng-controller="loginCtrl as login"><!-- login Bloc -->
-	<!-- Two interface for XMPP and HTTP -->
-	 <div class="Menu" >
-      <fieldset>
-        <legend>Services</legend>
-          <input type="radio" id="xmpps" name="service" ng-change="showHttp=!showHttp" ng-model="showXmpp" ng-value="xmpps"><label for="xmpps">XMPP</label><br/>
-          <input type="radio" id="http" name="service" ng-change="showXmpp=!showXmpp" ng-model="showHttp" value="http"><label for="http">HTTP</label>
-      </fieldset>
-      </div>
-      <br/>
-
-  <div  ng-show="showXmpp==xmpps">
+        <div class="row" ng-controller="loginCtrl as login"><!-- login Bloc -->
+          <!-- Two interface for XMPP and HTTP -->
+    <nav class="navbar navbar-default" role="navigation">
+          <a class="navbar-brand">Occi-JS<small>Javascript OCCI client</small></a>
+          <p class="navbar-text navbar-right">
+            <span  ng-show="online">Connected</span>
+            <span  ng-hide="online">Disconnected</span>
+          </p>
+          <div class="navbar-text">
+            <fieldset>
+                <input type="radio" id="xmpps" name="service" ng-change="showHttp=!showHttp" ng-model="showXmpp" ng-value="xmpps"><label for="xmpps">XMPP</label>
+                <input type="radio" id="http" name="service" ng-change="showXmpp=!showXmpp" ng-model="showHttp" value="http"><label for="http">HTTP</label>
+            </fieldset>
+        </div>
+           <div  ng-show="showXmpp==xmpps">
     <!-- <form class="form-signin" ng-submit="login.connect()"> -->
-    <form class="form-signin" ng-submit="login.connect()">
-      <fieldset>
-        <legend>XMPP Account</legend>
-          <input type="text" autofocus required="required"  class="form-control" id="jid" name="jid" ng-model="jidModel" placeholder="JID"/>
-          <input type="password" id="pass" name="pass" ng-model="passModel" autofocus required="required"  class="form-control" placeholder="Password"/><br/>
-          <button type="submit" id="submit" class="btn btn-lg btn-primary btn-block">Get categories &raquo;</button>
-          <button type="submit" id="submit" class="btn btn-lg btn-primary btn-block" ng-model="disconnect" ng-click="login.disconnect()">Disconnect</button>
-          <!-- <p class="alert alert-danger" ng-show="error.serverConnection">Impossible to connect to the server. Tried starting it?</p> -->
-      </fieldset>
-    </form>
-  </div>
-  <br/>
+            <form class="form-inline" ng-submit="login.connect()">
+              <input type="email" autofocus required="required"  class="form-control" id="jid" name="jid" ng-model="jidModel" placeholder="JID"/>
+              <input type="password" id="pass" name="pass" ng-model="passModel" autofocus required="required"  class="form-control" placeholder="Password"/>
+              <button type="submit" id="submit" class="btn btn-sm btn-default">Get categories &raquo;</button>
+              <button type="button" class="btn btn-sm btn-default" ng-model="disconnect" ng-click="login.disconnect()">Disconnect</button>
+              <!-- <p class="alert alert-danger" ng-show="error.serverConnection">Impossible to connect to the server. Tried starting it?</p> -->
+            </form>
+          </div>
 
   <div  ng-show="showHttp=='http'">
-    <form class="form-signin" role="form">
-      <fieldset>
-        <legend>HTTP Account</legend>
-        <input type="text" id="url" name="url"  autofocus required="required" value="localhost:8080" class="form-control" ng-model="serverurl" /><br/>
-        <button type="submit" id="submit" class="btn btn-lg btn-primary btn-block">Get categories &raquo;</button>
-
-      </fieldset>
+    <form class="form-inline">
+        <input type="text" id="url" name="url"  autofocus required="required" value="localhost:8080" class="form-control" ng-model="serverurl" />
+        <button type="submit" id="submit" class="btn btn-sm btn-default">Get categories &raquo;</button>
     </form>
   </div>
-  <br/>
+  </nav>	 
+
+ 
 
 </div><!-- login Bloc-->
 
