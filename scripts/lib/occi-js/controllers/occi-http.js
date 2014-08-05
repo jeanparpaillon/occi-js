@@ -1,14 +1,19 @@
-var occiApp = angular.module('occi-js', []);
+var occiApp = angular.module('occi-http', []);
 
 occiApp.config(function($logProvider){
 
-	// Turn debugging output to console on (true) or off (false)
-	$logProvider.debugEnabled(false);
-	
+// Turn debugging output to console on (true) or off (false)
+$logProvider.debugEnabled(false);
+
 });
 
 // Here we declared a controller called occiCtrl and registered it in an AngularJS module, lizennApp
-occiApp.controller('occiCtrl', function ($scope, $http, $attrs, $log) {
+occiApp.controller('httpCtrl', ['$scope', '$http', '$log', function ($scope, $http, $log) {
+    $log.log("In Http Controller");
+    $scope.showHttp=true;
+    $scope.https=true;
+    $scope.showXmpp=false;
+    
 
 	// Set default headers for GET requests
 	$http.defaults.headers.get = { 'Accept': 'application/json' };
@@ -16,12 +21,14 @@ occiApp.controller('occiCtrl', function ($scope, $http, $attrs, $log) {
 	// Default OCCI server url
 	$scope.serverurl = "localhost:8080";
 
+
 	// Get the categories
 	$scope.getCategories = function() {
-	
+		
 		$http.get("http://" + $scope.serverurl + "/-/")
 			.success(function(data) {
-			
+				
+				$scope.online=true;
 				// Reset the error object (in case we previously had errors)
 				$scope.error = false;
 				
@@ -48,7 +55,7 @@ occiApp.controller('occiCtrl', function ($scope, $http, $attrs, $log) {
 		
 	};
 	
-	// Get a list of resources from a category
+	// // Get a list of resources from a category
 	$scope.getResources = function(location, title) {
 	
 		// Show the resources element
@@ -75,7 +82,7 @@ occiApp.controller('occiCtrl', function ($scope, $http, $attrs, $log) {
 			});
 	};
 	
-	// Get a resource's details using its location (url)
+	// // Get a resource's details using its location (url)
 	$scope.getResourceDetails = function(location) {
 		$http.get(location)
 			.success(function(data) {
@@ -101,18 +108,18 @@ occiApp.controller('occiCtrl', function ($scope, $http, $attrs, $log) {
 			});
 	}
 
-	// Add a resource
-	$scope.addResource = function() {
+	// // Add a resource
+	// $scope.addResource = function() {
 		
-		/*
-		 Working CURL command to add a new resource:
-		//curl -v -X POST -H "content-type: application/json" -d '{"resources":[{"kind":"http://schemas.ogf.org/occi/infrastructure#compute","attributes":{"occi":{"core":{"title":"Laptop"},"compute":{"architecture":"x86","cores":2,"hostname":"thinkpad","memory":128,"speed":8000}}}}]}' http://localhost.localdomain:8080/collections/compute/
-		*/
+	// 	/*
+	// 	 Working CURL command to add a new resource:
+	// 	//curl -v -X POST -H "content-type: application/json" -d '{"resources":[{"kind":"http://schemas.ogf.org/occi/infrastructure#compute","attributes":{"occi":{"core":{"title":"Laptop"},"compute":{"architecture":"x86","cores":2,"hostname":"thinkpad","memory":128,"speed":8000}}}}]}' http://localhost.localdomain:8080/collections/compute/
+	// 	*/
 
-		// Json object
+	// 	// Json object
 		var newResource = {"resources":[{"kind":"http://schemas.ogf.org/occi/infrastructure#compute","attributes":{"occi":{"core":{"title":"Laptop"},"compute":{"architecture":"x86","cores":2,"hostname":"thinkpad","memory":128,"speed":8000}}}}]};
 
-		// With Angular's $http
+	// 	// With Angular's $http
 		$http({
 			url:'http://localhost:8080/collections/compute/',
 			method:"POST",
@@ -121,39 +128,40 @@ occiApp.controller('occiCtrl', function ($scope, $http, $attrs, $log) {
 			},
 			data: JSON.stringify(newResource)
 		}).success(function(data, status) {
-			$log.debug("Yea! Resource added!");
-			//$log.debug(status);
+			$log.debug(status);
 		}).error(function(data, status) {
 			$log.debug("Error");
 			$log.debug(status);
 		});
+
 		
-		// With Angular's $http.post
-		/*
-		$http.post('http://localhost:8080/collections/compute/', JSON.stringify(newResource))
-		.success(function(data, status) {
-			$log.debug("Yea! Resource added!");
-			//$log.debug(status);
-		}).error(function(data, status) {
-			$log.debug("Error");
-			$log.debug(status);
-		});
-		*/
+	// 	// With Angular's $http.post
+	// 	/*
+	// 	$http.post('http://localhost:8080/collections/compute/', JSON.stringify(newResource))
+	// 	.success(function(data, status) {
+	// 		$log.debug("Yea! Resource added!");
+	// 		//$log.debug(status);
+	// 	}).error(function(data, status) {
+	// 		$log.debug("Error");
+	// 		$log.debug(status);
+	// 	});
+	// 	*/
 				
-		// With Jquery's AJAX
-		/*
-		$.ajax({
-			headers: {
-				'Content-Type': 'application/json' 
-			},
-			'url': 'http://localhost:8080/collections/compute/',
-			'data': JSON.stringify(newResource),
-			'success': $log.debug("YES")
-		});
-		*/
+	// 	// With Jquery's AJAX
+	// 	/*
+	// 	$.ajax({
+	// 		headers: {
+	// 			'Content-Type': 'application/json' 
+	// 		},
+	// 		'url': 'http://localhost:8080/collections/compute/',
+	// 		'data': JSON.stringify(newResource),
+	// 		'success': $log.debug("YES")
+	// 	});
+	// 	*/
 		
-	}
 	
-});
+	
+}]);
+
 
 

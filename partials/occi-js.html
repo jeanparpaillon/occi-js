@@ -1,0 +1,54 @@
+ 
+
+  <nav class="navbar navbar-default" role="navigation">
+          <a class="navbar-brand" href="index.html">Occi-JS<small>Javascript OCCI client</small></a>
+          <p class="navbar-text navbar-right">
+            <span ng-show="online">Connected</span>
+            <span ng-hide="online">Disconnected</span>
+          </p>
+          <div class="navbar-text">
+            <fieldset>
+                <fieldset>
+                <label><a href="#xmpp">XMPP</a></label>
+                <label><a href="#http">HTTP</a></label>
+            </fieldset>
+            </fieldset>
+        </div>
+           <div ng-show="showXmpp" ng-controller="loginCtrl as login">
+    <!-- <form class="form-signin" ng-submit="login.connect()"> -->
+            <form class="form-inline" ng-submit="login.connect()">
+              <input type="email" autofocus required="required" class="form-control" id="jid" name="jid" ng-model="jidModel" placeholder="JID"/>
+              <input type="password" id="pass" name="pass" ng-model="passModel" autofocus required="required" class="form-control" placeholder="Password"/>
+              <button type="submit" id="submit" class="btn btn-sm btn-default">Get categories &raquo;</button>
+              <button type="button" class="btn btn-sm btn-default" ng-model="disconnect" ng-click="login.disconnect()">Disconnect</button>
+              <!-- <p class="alert alert-danger" ng-show="error.serverConnection">Impossible to connect to the server. Tried starting it?</p> -->
+            </form>
+          </div>
+
+  <div ng-show="showHttp" ng-submit="getCategories()">
+    <form class="form-inline">
+        <input type="text" id="url" name="url" autofocus required="required" value="localhost:8080" class="form-control" ng-model="serverurl" />
+        <button type="submit" id="submit" class="btn btn-sm btn-default">Get categories &raquo;</button>
+    </form>
+  </div>
+  </nav>  
+   
+
+<div class="content">
+	<p ng-hide="data">We will try to fetch OCCI categories from: <strong><span>{{ serverurl }}</span></strong></p>
+	<div class="row">
+		<div class="col-md-4">
+			<div ng-show="showCategories" ng-include="'partials/categories.html'"></div>
+		</div>
+    <div class="col-md-8">
+      <div ng-show="showResources" class="resources" ng-include="'partials/resources.html'"></div>
+    </div>
+	</div><!-- .row -->
+</div><!-- .content -->
+
+<!-- Modal showing the resource details -->
+  <div class="modal fade" id="resourceDetails" tabindex="-1" role="dialog" aria-labelledby="resourceDetailsLabel" aria-hidden="true" ng-include="'partials/resourceDetails.html'"></div>
+
+<!-- Modal to add and update resource attributes -->
+  <div class="modal fade" id="resourceAttributes" tabindex="-1" role="dialog" aria-labelledby="attributesDetailsLabel" aria-hidden="true" ng-include="'partials/resourceAttributes.html'"></div>
+
