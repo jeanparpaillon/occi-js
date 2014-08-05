@@ -5,25 +5,25 @@
 			<h4 class="modal-title" id="resourceDetailsLabel">Resource details</h4>
 		</div>
 		<div class="modal-body">
-			<ul ng-repeat="detail in resourceDetails.resource">
-					<li>Id : {{ detail.id }}</li>
-					<li>Kind : {{ detail.kind }}</li>
-					<ul ng-repeat="mixin in detail.mixins">
-						<li>Mixin : {{ mixin }}</li>
-					</ul>
-					<li>Attributes : {{ detail.attributes }}</li>
-					
-			</ul>
-			<ul ng-repeat="detail in resourceDetails.link">
-					<li>Id : {{ detail.id }}</li>
-					<li>Kind : {{ detail.kind }}</li>
-					<ul ng-repeat="mixin in detail.mixins">
-						<li>Mixin : {{ mixin }}</li>
-					</ul>
-					<li>Attributes : {{ detail.attributes }}</li>
-					<li>Source : {{ detail.source }}</li>
-					<li>Target : {{ detail.target }}</li>
-			</ul>
+			<table class="table table-striped">
+						<tr ng-repeat="detail in resourceDetails.resource">
+								<td>{{ detail.id }}</td>
+								<td>{{ detail.kind }}</td>
+								<td>{{ detail.attributes.occi }}</td>
+								
+						
+						<!-- <tr ng-repeat="detail in resourceDetails.link">
+								<td>{{ detail.id }}</td>
+								<td>{{ detail.kind }}</td>
+								<tr ng-repeat="mixin in detail.mixins">
+									<td>{{ mixin }}</td>
+								</td>
+								<td>{{ detail.attributes }}</td>
+								<td>{{ detail.source }}</td>
+								<td>{{ detail.target }}</td>
+						</tr> -->
+						</tr>
+			</table>
 			<!-- {{ resourceDetails }} -->
 		</div>
 		<div class="modal-footer">

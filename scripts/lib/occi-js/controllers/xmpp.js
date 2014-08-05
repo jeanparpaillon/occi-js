@@ -63,10 +63,10 @@ angular.module('occi-js.xmpp', ['ngCookies'])
     },
 
     _init: function(connectionUrl) {
-      console.debug("using connection url : " + connectionUrl);
+      // console.debug("using connection url : " + connectionUrl);
       this._connectionUrl = connectionUrl;
       if (this._connection) {
-        console.info("reset current connexion");
+        // console.info("reset current connexion");
         this._connection.reset();
         // cleanup requests queue
         this._connection._proto._requests.forEach(angular.bind(this, function(req) {
@@ -79,8 +79,8 @@ angular.module('occi-js.xmpp', ['ngCookies'])
         this._connection = new Strophe.Connection(this._connectionUrl);
         this._connection.xmlInput = angular.bind(this, this.onInput);
         this._connection.xmlOutput = angular.bind(this, this.onOutput);
-        this._connection.rawInput = function(data) { console.log('RECV: ' + data); };
-        this._connection.rawOutput = function(data) { console.log('SENT: ' + data); };
+        // this._connection.rawInput = function(data) { console.log('RECV: ' + data); };
+        // this._connection.rawOutput = function(data) { console.log('SENT: ' + data); };
       }
     },
 
@@ -94,7 +94,7 @@ angular.module('occi-js.xmpp', ['ngCookies'])
           !xmppSession.data.connectionUrl)
         return;
       this._init(xmppSession.data.connectionUrl);
-      console.debug("attach session " + xmppSession.data.sid);
+      // console.debug("attach session " + xmppSession.data.sid);
       this._connection.attach(xmppSession.data.jid,
                               xmppSession.data.sid,
                               xmppSession.data.rid,
@@ -104,7 +104,7 @@ angular.module('occi-js.xmpp', ['ngCookies'])
 
     connect: function(jid, password, connectionUrl) {
       this._init(connectionUrl);
-      console.debug("login with " + jid + "/" + password);
+      // console.debug("login with " + jid + "/" + password);
       this._connection.connect(jid,
                                password,
                                angular.bind(this, this.onConnect));
@@ -121,7 +121,7 @@ angular.module('occi-js.xmpp', ['ngCookies'])
     },
 
     onConnect: function(status, error) {
-      console.debug('connection status is ' + statuses[status]);
+      // console.debug('connection status is ' + statuses[status]);
       this.status.code = status;
       this.status.text = statuses[status];
       if (this.status.code == Strophe.Status.CONNECTED ||
@@ -183,13 +183,7 @@ angular.module('occi-js.xmpp', ['ngCookies'])
 
 .controller('loginCtrl', ['$scope', 'xmpp', function($scope, xmpp) {
     // Initialize attributs
-    $scope.showXmpp=true;
-    $scope.xmpps=true;
-    $scope.showHttp=false;
-    $scope.jidModel="";
-    $scope.passModel="";
-    $scope.serverurl="admin@localhost/erocci";
-    
+  
   if (xmpp.connected) {
     // $state.go('provides');
   }

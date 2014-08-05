@@ -7,80 +7,37 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen" /> 
 	<link href="css/style.css" rel="stylesheet" media="screen" />
+  
 </head>
-<body>
+<body >
+  
 
-<div class="container" ng-controller="connCtrl"><!-- Begin-->
-        <div class="row" ng-controller="loginCtrl as login"><!-- login Bloc -->
-          <!-- Two interface for XMPP and HTTP -->
-    <nav class="navbar navbar-default" role="navigation">
-          <a class="navbar-brand">Occi-JS<small>Javascript OCCI client</small></a>
-          <p class="navbar-text navbar-right">
-            <span  ng-show="online">Connected</span>
-            <span  ng-hide="online">Disconnected</span>
-          </p>
-          <div class="navbar-text">
-            <fieldset>
-                <input type="radio" id="xmpps" name="service" ng-change="showHttp=!showHttp" ng-model="showXmpp" ng-value="xmpps"><label for="xmpps">XMPP</label>
-                <input type="radio" id="http" name="service" ng-change="showXmpp=!showXmpp" ng-model="showHttp" value="http"><label for="http">HTTP</label>
-            </fieldset>
-        </div>
-           <div  ng-show="showXmpp==xmpps">
-    <!-- <form class="form-signin" ng-submit="login.connect()"> -->
-            <form class="form-inline" ng-submit="login.connect()">
-              <input type="email" autofocus required="required"  class="form-control" id="jid" name="jid" ng-model="jidModel" placeholder="JID"/>
-              <input type="password" id="pass" name="pass" ng-model="passModel" autofocus required="required"  class="form-control" placeholder="Password"/>
-              <button type="submit" id="submit" class="btn btn-sm btn-default">Get categories &raquo;</button>
-              <button type="button" class="btn btn-sm btn-default" ng-model="disconnect" ng-click="login.disconnect()">Disconnect</button>
-              <!-- <p class="alert alert-danger" ng-show="error.serverConnection">Impossible to connect to the server. Tried starting it?</p> -->
-            </form>
-          </div>
-
-  <div  ng-show="showHttp=='http'">
-    <form class="form-inline">
-        <input type="text" id="url" name="url"  autofocus required="required" value="localhost:8080" class="form-control" ng-model="serverurl" />
-        <button type="submit" id="submit" class="btn btn-sm btn-default">Get categories &raquo;</button>
-    </form>
-  </div>
-  </nav>	 
-
- 
-
-</div><!-- login Bloc-->
+    
 
 
-<div class="content">
-	<p ng-hide="data">We will try to fetch OCCI categories from: <strong><span>{{ serverurl }}</span></strong></p>
-	<div class="row">
-		<div class="col-md-4">
-			<div ng-show="showCategories" ng-include="'partials/categories.html'"></div>
-		</div>
-    <div class="col-md-8">
-      <div ng-show="showResources" class="resources" ng-include="'partials/resources.html'"></div>
-    </div>
-	</div><!-- .row -->
-</div><!-- .content -->
-
-<!-- Modal showing the resource details -->
-  <div class="modal fade" id="resourceDetails" tabindex="-1" role="dialog" aria-labelledby="resourceDetailsLabel" aria-hidden="true" ng-include="'partials/resourceDetails.html'"></div>
- </div>
+      <div ng-view></div>
+      
 
 
+
+
+  
 
 <!-- Using bootstrap for modals which requires jQuery-->
-<!-- <script src="http://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript" language="javascript"></script>  -->
-<script src="scripts/vendor/jquery/jquery.min.js"></script>
-<script src="scripts/vendor/bootstrap/bootstrap.min.js"></script>
-<script src='scripts/vendor/Strophe/strophe.js'></script>
-<!-- Angular -->
-<script src="scripts/vendor/angular/angular.min.js"></script>
-<script src="scripts/vendor/angular/angular-cookies.min.js"></script>
-<script src="scripts/vendor/angular/angular-route.min.js"></script>
-<script src="scripts/lib/occi-js/controllers/occi-xmpp.js"></script>
-<script src="scripts/lib/occi-js/controllers/xmpp.js"></script>
-<script src="scripts/vendor/json/xml2json.js"></script>
+  <!-- <script src="http://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript" language="javascript"></script>  -->
+  <script src="scripts/vendor/jquery/jquery.min.js"></script>
+  <script src="scripts/vendor/bootstrap/bootstrap.min.js"></script>
+  <script src='scripts/vendor/Strophe/strophe.js'></script>
+  <!-- Angular -->
 
-<!-- <script src="scripts/lib/occi-js/controllers.js"></script>
-<!<script src="scripts/lib/occi-js/directives.js"></script> -->
+  <script src="scripts/vendor/angular/angular.min.js"></script>
+  <script src="scripts/vendor/angular/angular-cookies.min.js"></script>
+  <script src="scripts/vendor/angular/angular-route.min.js"></script>
+  <script src="scripts/lib/occi-js/app.js"></script>
+  <script src="scripts/lib/occi-js/controllers/occi-xmpp.js"></script>
+  <script src="scripts/lib/occi-js/controllers/controllers.js"></script>
+  <script src="scripts/lib/occi-js/controllers/xmpp.js"></script>
+  <script src="scripts/lib/occi-js/services/services.js"></script>
+  <script src="scripts/vendor/json/xml2json.js"></script>
 </body>
 </html>
