@@ -142,11 +142,11 @@ function xmlResourcesToJson(xml)
             for(var i = 0; i < xml.childNodes.length; i++) {
                   var item = xml.childNodes.item(i);
                   nodeName=item.nodeName;
-                  if(xml.nodeName=="resource")
-                  {
-                        if(nodeName=="link")
-                              break;
-                  }
+                  // if(xml.nodeName=="resource")
+                  // {
+                  //       if(nodeName=="link")
+                  //             break;
+                  // }
                   
                   if(nodeName!="attribute")
                   {

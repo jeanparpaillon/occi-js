@@ -2,30 +2,18 @@
 	<div class="modal-content">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h4 class="modal-title" id="resourceDetailsLabel">Resource details</h4>
+			<h4 class="modal-title" id="resourceDetailsLabel">Resource details </h4>
 		</div>
-		<div class="modal-body">
-			<table class="table table-striped">
-						<tr ng-repeat="detail in resourceDetails.resource">
-								<td>{{ detail.id }}</td>
-								<td>{{ detail.kind }}</td>
-								<td>{{ detail.attributes.occi }}</td>
-								
-						
-						<!-- <tr ng-repeat="detail in resourceDetails.link">
-								<td>{{ detail.id }}</td>
-								<td>{{ detail.kind }}</td>
-								<tr ng-repeat="mixin in detail.mixins">
-									<td>{{ mixin }}</td>
-								</td>
-								<td>{{ detail.attributes }}</td>
-								<td>{{ detail.source }}</td>
-								<td>{{ detail.target }}</td>
-						</tr> -->
-						</tr>
-			</table>
-			<!-- {{ resourceDetails }} -->
-		</div>
+		<table class="table table-striped"> 
+				<tr>
+					<td>#</td>
+					<td ng-repeat="(key, value) in attributeDetails">{{ key }}</td>
+				</tr>
+				<tr ng-repeat="(key, value) in attributes">
+					<td>{{ key }}</td>
+					<td ng-repeat="(key, value) in value" ng-if="value!=''">{{ value }}</td>
+				</tr>
+		</table>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
 		</div>
