@@ -1,0 +1,10 @@
+<table class="table table-striped"> 
+				<tr>
+					<td>#</td>
+					<td ng-repeat="(key, value) in attributeDetails">{{ key }}</td>
+				</tr>
+				<tr ng-repeat="(key, value) in attributes">
+					<td>{{ key }}</td>
+					<td ng-repeat="(key, value) in value" ng-if="value!=''">{{ value }}</td>
+				</tr>
+</table>
