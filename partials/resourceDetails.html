@@ -2,18 +2,27 @@
 	<div class="modal-content">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h4 class="modal-title" id="resourceDetailsLabel">Resource details </h4>
+			<h4 class="modal-title" id="resourceDetailsLabel">Details Of {{ titleOfResource }}</h4>
 		</div>
-		<table class="table table-striped"> 
-				<tr>
-					<td>#</td>
-					<td ng-repeat="(key, value) in attributeDetails">{{ key }}</td>
-				</tr>
-				<tr ng-repeat="(key, value) in attributes">
-					<td>{{ key }}</td>
-					<td ng-repeat="(key, value) in value" ng-if="value!=''">{{ value }}</td>
-				</tr>
-		</table>
+		
+ 	<div class="tabbable">
+		<ul class="nav nav-tabs" ng-init="tab = 1">
+			  <li ng-class="{active:tab===1}">
+			  	<a ng-click="tab = 1">Attributes Of resource</a>
+			  </li>
+			  <li ng-class="{active:tab===2}">
+			  	<a ng-click="tab = 2">Attributes of Links</a>
+			  </li>
+        </ul>
+
+
+		<div class="tab-content"> 
+			<div>
+				<div ng-show="tab === 1" ng-include="'partials/resourceTab.html'"></div>
+				<div ng-show="tab === 2" ng-include="'partials/linksTab.html'"></div>
+			</div>
+		</div>
+    </div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
 		</div>

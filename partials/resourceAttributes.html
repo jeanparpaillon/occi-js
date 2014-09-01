@@ -1,0 +1,33 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title" id="resourceDetailsLabel">Resource Attributes</h4>
+		</div>
+		<br/>
+		<div class="modal-body">
+			<form role="form">
+				<div ng-repeat="(key, value) in detailsOfAttribute">
+					<input type="text" class="form-control my-input"  placeholder="{{ key }} << {{ value }} >>" ng-model="listOfAttributes[key]"/>
+					<br/>
+		  		</div>
+				<!-- <div>
+    				<div>
+       			    <input auto-complete ui-items="names" ng-model="selected">
+				        selected = {{selected}}
+				    </div>
+				</div> -->
+
+
+		  		<br/>
+			</form>
+		</div>
+		<!-- <pre>{{ listOfResources }}</pre> -->
+		
+		<div class="modal-footer">
+			<button type="submit" id="submit" class="btn btn-sm btn-default" ng-click="addResource()" ng-show="btnAdd">Add</button>
+			<button type="submit" id="submit" class="btn btn-sm btn-default" ng-click="updateResource()" ng-show="btnUpdate">Update</button>
+			<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+		</div>
+	</div>
+</div>

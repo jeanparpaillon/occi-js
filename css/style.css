@@ -86,15 +86,6 @@ p.error {
 	margin: 1em 0 2em;
 }
 
-.kind{
-    width: 150px;
-    padding: 10px 20px;
-    background-color: #EEE;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    color: #888;
-}
-
 
 .navbar-brand small {
   display:block;
@@ -105,3 +96,10 @@ p.error {
     text-align:center;
 }
 
+.myForm{
+	margin-top: 12px;
+}
+.my-input.ng-invalid {
+    color:white;
+    background: red;
+}

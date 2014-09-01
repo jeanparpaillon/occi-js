@@ -1,8 +1,8 @@
 angular.module('occi-services', []);
 
-var boshServer = 'http://localhost:5280/http-bind';
-var connection=null;
 
+var connection=null;
+var staticText="xmpp+occi:admin@localhost";
 
 
 
@@ -55,9 +55,10 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 			return{
 				   getCollections:function(location) {
 						// Use attribute "location" to send a new query
-						// console.log(location);
+						// console.log("location : "+location);
 						var resultSplit=location.split('/');
 						var url="/"+resultSplit[1]+"/"+resultSplit[2]+"/";
+						// console.log("url : "+url);
 						var request=$iq({to:"admin@localhost/erocci", type:"get", id:"getCol"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", node: url});
 					    connection.send(request);
 					    connection.addHandler(this.printCollections, null, "iq", null, "getCol");
@@ -69,7 +70,6 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 					   		var jsonCollections = xmlCollectionsToJson(collection);
 							var collectionString=JSON.stringify(jsonCollections);
 							var collections=jQuery.parseJSON(collectionString);
-							// console.log(collectionString);
 							$rootScope.$apply(function()
 							    {
 							    	deffered.resolve(collections);
@@ -78,9 +78,7 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 				   	},
 				   	getResourceLocations:function(resource)
 				   	{
-				   		// console.log("getResource of Xmpp");
-				   		var url=resource.substring(25,resource.length);
-				   		// console.log("URL : "+url);
+				   		var url=resource.substring(staticText.length,resource.length);
 				   		var request=$iq({to:"admin@localhost/erocci", type:"get", id:"getResource"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", node: url});
 					    connection.send(request);
 					    connection.addHandler(this.printResource, null, "iq", null, "getResource");
@@ -93,21 +91,68 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 				   		var jsonResource = xmlResourcesToJson(resource);
 						var resourceString=JSON.stringify(jsonResource);
 						var resources=jQuery.parseJSON(resourceString);
-						console.log(resourceString);
+						// console.log(resourceString);
 						$rootScope.$apply(function()
 						    {
 						    	deffered.resolve(resources);
 						    });
 						return false;
-				   	}, 
-				   	deleteResourceController:function(resource)
-				   	{
-				   		// console.log("In deleteRessource");
-				   		var url=resource.substring(25,resource.length);
-				   		var request=$iq({to:"admin@localhost/erocci", type:"set"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", op:"delete", node:url});
-					    connection.send(request);
 				   	}
 				   }
-		}
+		},
+		deleteResourceService:function(resource)
+	   	{
+	   		var url=resource.substring(staticText.length,resource.length);//changer la fonction subString()
+	   		var request=$iq({to:"admin@localhost/erocci", type:"set"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", op:"delete", node:url});
+		    connection.send(request);
+	   	},
+	   	addResourceService:function(listOfAttributes, collectionAttributes, resourceTitle, typeOfEntity)
+	   	{
+	   		var id=guid();
+	   		console.log("id created : "+id);
+	   		var termOfKind=collectionAttributes.term;
+	   		var schemeOfKind=collectionAttributes.scheme;
+	   		var titleOfResource=resourceTitle;
+
+	   		// if typeOfEntity is resource we create an iq with element 'resource', else we create an element 'link'
+	   		var myRequestString='$iq({to:"admin@localhost/erocci", type:"set"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", op:"save", node:"/newResources/'+termOfKind+'/'+id+'"})';
+	   		if(typeOfEntity=="link")
+	   		{
+	   			myRequestString+='.c("link", {xmlns: "http://schemas.ogf.org/occi"})';
+	   		}else
+	   		{
+	   			myRequestString+='.c("resource", {xmlns: "http://schemas.ogf.org/occi", title: "'+resourceTitle+'"})';
+	   		}
+	   		myRequestString+='.c("kind", {scheme:"'+schemeOfKind+'", term: "'+termOfKind+'"})';
+	   		for(attribute in listOfAttributes)
+	   		{
+	   			myRequestString+='.c("attribute",{name: "'+attribute+'", value: "'+listOfAttributes[attribute]+'"})';
+	   		}
+	   		// console.log("myRequest : "+myRequestString);
+	   		var myRequest=eval(myRequestString);
+	   		// console.log("Request after evaluation :"+myRequest);
+	   		connection.send(myRequest);
+	   	},
+	   	updateResourceService:function(urlOfResource, collectionAttributes, resourceTitle, listOfAttributes)
+	   	{
+	   		// console.log("Url of resource : "+urlOfResource);
+	   		// console.log("Attributes : "+JSON.stringify(saveCollectionAttributes));
+	   		var myRequestString='$iq({to:"admin@localhost/erocci", type:"set"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", op:"update", node:"'+urlOfResource+'"})';
+			if(typeOfEntity=="link")
+			{
+				myRequestString+='.c("link", {xmlns: "http://schemas.ogf.org/occi"})';
+			}else
+			{
+				myRequestString+='.c("resource", {xmlns: "http://schemas.ogf.org/occi", title: "'+resourceTitle+'"})';
+			}
+			myRequestString+='.c("kind", {scheme:"'+collectionAttributes.scheme+'", term: "'+collectionAttributes.term+'"})';
+			for(attribute in listOfAttributes)
+			{
+				myRequestString+='.c("attribute",{name: "'+attribute+'", value: "'+listOfAttributes[attribute]+'"})';
+			}
+			// console.log("myRequest : "+myRequestString);
+			var myRequest=eval(myRequestString);
+	   		// console.log("Request after evaluation :"+myRequest);
+	   	}
 	}
 }]);

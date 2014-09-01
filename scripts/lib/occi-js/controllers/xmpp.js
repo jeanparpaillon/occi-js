@@ -79,7 +79,7 @@ angular.module('occi-js.xmpp', ['ngCookies'])
         this._connection = new Strophe.Connection(this._connectionUrl);
         this._connection.xmlInput = angular.bind(this, this.onInput);
         this._connection.xmlOutput = angular.bind(this, this.onOutput);
-        // this._connection.rawInput = function(data) { console.log('RECV: ' + data); };
+        this._connection.rawInput = function(data) { console.log('RECV: ' + data); };
         // this._connection.rawOutput = function(data) { console.log('SENT: ' + data); };
       }
     },
@@ -183,7 +183,8 @@ angular.module('occi-js.xmpp', ['ngCookies'])
 
 .controller('loginCtrl', ['$scope', 'xmpp', function($scope, xmpp) {
     // Initialize attributs
-  
+  $scope.jidModel="user@localhost";
+  $scope.passModel="user";
   if (xmpp.connected) {
     // $state.go('provides');
   }
@@ -207,10 +208,9 @@ angular.module('occi-js.xmpp', ['ngCookies'])
       }
       this.connections = [
         'http://' + host + ':5280/http-bind',
-        'ws://' + host + ':5280/xmpp-websocket',
-        'ws://' + host + ':5288/xmpp-websocket'
+         'ws://' + host + ':5280/ws-xmpp'
       ];
-      this.connection = this.connections[0];
+      this.connection = this.connections[1];
   })
 
     // angular.bind(this, function() { return jid.value; })

@@ -1,11 +1,11 @@
 
-
-
 var myApp=angular.module('occi-js', [
   'ngRoute',
   'occi-xmpp',
   'occi-http'
+
 ]);
+
 
 
 myApp.config(['$routeProvider',  
@@ -23,3 +23,6 @@ myApp.config(['$routeProvider',
         redirectTo: 'http'
       });
   }]);
+
+
+

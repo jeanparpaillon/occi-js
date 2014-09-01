@@ -9,9 +9,10 @@ $logProvider.debugEnabled(false);
 
 // Here we declared a controller called occiCtrl and registered it in an AngularJS module, lizennApp
 occiApp.controller('httpCtrl', ['$scope', '$http', '$log', function ($scope, $http, $log) {
+    $scope.connexionStatus=false;
     $log.log("In Http Controller");
     $scope.showHttp=true;
-    $scope.https=true;
+    // $scope.http=true;
     $scope.showXmpp=false;
     
 

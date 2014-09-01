@@ -1,37 +1,49 @@
  
 
   <nav class="navbar navbar-default" role="navigation">
-          <a class="navbar-brand" href="index.html">Occi-JS<small>Javascript OCCI client</small></a>
-          <p class="navbar-text navbar-right">
+    <div class="container-fluid">
+      <div class="navbar-header">
+          <a class="navbar-brand" href="index.html"><img class="pull-left" src="img/logo_lizenn.png" alt="Lizenn" style="width:40px; height:40px;" /></a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <p ng-show="connexionStatus" class="navbar-text navbar-right">
             <span ng-show="online">Connected</span>
             <span ng-hide="online">Disconnected</span>
           </p>
           <div class="navbar-text">
-            <fieldset>
+            
                 <fieldset>
                 <label><a href="#xmpp">XMPP</a></label>
                 <label><a href="#http">HTTP</a></label>
+
+               <!--  <input type="radio" id="xmpps" name="service" ng-change="showHttp=!showHttp" ng-model="showXmpp" onclick="document.location='#xmpp';"><label for="xmpps">XMPP</label><br/>
+                <input type="radio" id="http" name="service" ng-change="showXmpp=!showXmpp" ng-model="showHttp"  onclick="document.location='#http';" checked="checked"><label for="http">HTTP</label>  -->
+
+                
             </fieldset>
-            </fieldset>
+
         </div>
-           <div ng-show="showXmpp" ng-controller="loginCtrl as login">
-    <!-- <form class="form-signin" ng-submit="login.connect()"> -->
+           <div class="myForm" ng-show="showXmpp" ng-controller="loginCtrl as login">
             <form class="form-inline" ng-submit="login.connect()">
               <input type="email" autofocus required="required" class="form-control" id="jid" name="jid" ng-model="jidModel" placeholder="JID"/>
               <input type="password" id="pass" name="pass" ng-model="passModel" autofocus required="required" class="form-control" placeholder="Password"/>
+              <select class="form-control ng-pristine ng-valid ng-valid-required" id="connection" data-ng-model="login.connection" data-ng-options="conn for conn in login.connections">
+              </select>
               <button type="submit" id="submit" class="btn btn-sm btn-default">Get categories &raquo;</button>
               <button type="button" class="btn btn-sm btn-default" ng-model="disconnect" ng-click="login.disconnect()">Disconnect</button>
-              <!-- <p class="alert alert-danger" ng-show="error.serverConnection">Impossible to connect to the server. Tried starting it?</p> -->
+              <p class="alert alert-danger" ng-show="error.serverConnection">Impossible to connect to the server. Tried starting it?</p>
             </form>
           </div>
 
-  <div ng-show="showHttp" ng-submit="getCategories()">
+  <div class="myForm" ng-show="showHttp" ng-submit="getCategories()">
     <form class="form-inline">
         <input type="text" id="url" name="url" autofocus required="required" value="localhost:8080" class="form-control" ng-model="serverurl" />
         <button type="submit" id="submit" class="btn btn-sm btn-default">Get categories &raquo;</button>
     </form>
   </div>
   </nav>  
+</div>
+</div>
    
 
 <div class="content">
@@ -51,4 +63,3 @@
 
 <!-- Modal to add and update resource attributes -->
   <div class="modal fade" id="resourceAttributes" tabindex="-1" role="dialog" aria-labelledby="attributesDetailsLabel" aria-hidden="true" ng-include="'partials/resourceAttributes.html'"></div>
-

@@ -3,8 +3,18 @@
 					<td>#</td>
 					<td ng-repeat="(key, value) in linkDetails">{{ key }}</td>
 				</tr>
-				<tr ng-repeat="(key, value) in Linkattributes">
+				<tr  ng-repeat="(key, value) in Linkattributes">
 					<td>{{ key }}</td>
-					<td ng-repeat="(key, value) in value" ng-if="value!=''">{{ value }}</td>
+					<td ng-repeat="(key, value) in value" ng-if="key!='source'">{{ value }}</td>
 				</tr>
+				<tr ng-if="sourceOfLink!=''">
+					<td>Source</td>
+					<td></td>
+					<td>{{ sourceOfLink }}</td>
+				</tr>
+				<tr ng-if="targetOfLink!=''">
+					<td>Target</td>
+					<td></td>
+					<td>{{ targetOfLink }}</td>
+				</tr>	
 </table>

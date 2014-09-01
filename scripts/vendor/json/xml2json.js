@@ -58,7 +58,7 @@ function xmlCapabilitiesToJson(xml){
                         {
                               if(nodeName=="parent")
                               {
-                                    obj[nodeName]=(item.attributes[0].nodeValue)+(item.attributes[1].nodeValue);
+                                    obj[nodeName]=searchAttribute(item.attributes, "scheme")+searchAttribute(item.attributes, "term");
                               }
                               else if(nodeName=="attribute")
                               {
@@ -77,8 +77,6 @@ function xmlCapabilitiesToJson(xml){
 
                         }
              }
-            
-
             }
       return obj;
 };
@@ -89,12 +87,18 @@ function xmlCapabilitiesToJson(xml){
 function xmlCollectionsToJson(xml)
 {
       var obj = {};
+      obj["collectionAttributes"]={};
       if (xml.nodeType == 1 && xml.nodeName!="collection") { 
             if (xml.attributes.length > 0) {
                   for (var j = 0; j < xml.attributes.length; j++) {
                         var attribute = xml.attributes.item(j);
                         obj= attribute.nodeValue;
                   }
+            }
+    }else{
+      for (var i= 0; i < xml.attributes.length; i++) {
+                  var attribute = xml.attributes.item(i);
+                  obj["collectionAttributes"][attribute.nodeName]= attribute.nodeValue;
             }
     }
 
@@ -121,9 +125,12 @@ function xmlResourcesToJson(xml)
             if (xml.attributes.length > 0 && name!="query") {
                   for (var j = 0; j < xml.attributes.length; j++) {
                         var attribute = xml.attributes.item(j);
-                        console.log("Attribute : "+attribute.nodeName);
-                        if(attribute.nodeName=="id")
-                               obj[attribute.nodeName]= attribute.nodeValue;
+                        var nameAttribute=attribute.nodeName;
+                        var valueAttribute=attribute.nodeValue;
+                        if(nameAttribute=="xl:href")
+                              obj["href"] = attribute.nodeValue;
+                        else
+                              obj[attribute.nodeName] = attribute.nodeValue;
                   }
             }
     }
@@ -138,7 +145,6 @@ function xmlResourcesToJson(xml)
                   obj["attributes"]={};
                   var attribute=xml.getElementsByTagName("attribute");
                   var nam=searchAttribute(attribute[0].attributes, "name");
-                  console.log("Name : "+attribute[1].attributes.item(1).nodeValue);
                   var firstSplit=(nam).split('.');
                   obj["attributes"][firstSplit[0]]={};
                   obj["attributes"][firstSplit[0]][term]={};
@@ -148,7 +154,6 @@ function xmlResourcesToJson(xml)
             for(var i = 0; i < xml.childNodes.length; i++) {
                   var item = xml.childNodes.item(i);
                   nodeName=item.nodeName;
-                  console.log("before Test attribute :"+nodeName);
                   
                   if(nodeName!="attribute")
                   {
@@ -165,7 +170,6 @@ function xmlResourcesToJson(xml)
                               var mixinValue=searchAttribute(attributeMixin, "scheme")+searchAttribute(attributeMixin, "term");
                               var name="mixins";
                               obj[name]=[];
-                              console.log("Mixin Json value : "+mixinValue);
                               obj[name].push(mixinValue);
                         }
                         else if(typeof(obj[nodeName]) == "undefined"){
@@ -180,15 +184,13 @@ function xmlResourcesToJson(xml)
                               }
                   }else{
                               var name=searchAttribute(item.attributes, "name");
-                              console.log("Node  attribute : "+name);
                               var secondSplit=name.split('.');
-                              if(secondSplit[2]=="source"|| secondSplit[2]=="target")
+                              if(secondSplit[2]=="source" || secondSplit[2]=="target")
                               {
                                     obj[secondSplit[2]]=searchAttribute(item.attributes, "xl:href");
                               }
                               else if(secondSplit[1]==term)
                               {
-                                    console.log("secondSplit : "+secondSplit);
                                     obj["attributes"][firstSplit[0]][secondSplit[1]][secondSplit[2]]=searchAttribute(item.attributes, "value");
                               }
                   }   
