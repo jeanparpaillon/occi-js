@@ -13,8 +13,6 @@ var typeOfEntity;
 
 app.controller('xmppCtrl',['$scope', 'xmpp', 'xmppSession', 'myService', function($scope, xmpp, xmppSession, myService)
 {
-
-
 	console.log("in XMPP controller");
 	$scope.connexionStatus=true;
 	 // Initialize attributs
@@ -76,9 +74,11 @@ app.controller('xmppCtrl',['$scope', 'xmpp', 'xmppSession', 'myService', functio
 	}
 
 	function getKindsDetails(result)
-	{
-					
+	{	
 			var attributesDetail={};
+			$scope.Linkattributes=null;
+			$scope.sourceOfLink=null;
+			$scope.targetOfLink=null;
 			// console.log("Location of resource : "+saveLocation);
 			for(var i=0; i<categories.kinds.length;i++)
 			{
@@ -214,18 +214,14 @@ app.controller('xmppCtrl',['$scope', 'xmpp', 'xmppSession', 'myService', functio
 		{
 			$scope.Linkattributes=result;
 		}
-		
+
+		// console.log("attributes : "+JSON.stringify(result));
 	}
 
 	$scope.deleteResource=function(resource)
 	{
 		myService.deleteResourceService(resource);
 	}
-
-
-
-	
-
 
 	$scope.createForm=function(boolean)
 	{
@@ -260,7 +256,6 @@ app.controller('xmppCtrl',['$scope', 'xmpp', 'xmppSession', 'myService', functio
 				{
 					var sourceAttribute="occi."+kind.term+".source";
 					var targetAttribute="occi."+kind.term+".target";
-					// $scope.listOfAttributes[sourceAttribute]=;
 					attributes[sourceAttribute]="string";
 					attributes[targetAttribute]="string";
 				}
@@ -289,7 +284,7 @@ app.controller('xmppCtrl',['$scope', 'xmpp', 'xmppSession', 'myService', functio
 					}
 			}
 		}
-		// console.log("Details of attributes : "+JSON.stringify(attributes));
+		console.log("Details of attributes : "+JSON.stringify(attributes));
 		$scope.detailsOfAttribute=attributes;
 	}
 

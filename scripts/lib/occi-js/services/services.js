@@ -24,6 +24,7 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 				onDisconnection:function()
 				{
 					$rootScope.online=false;
+					document.location='#xmpp';
 				},
 
 				// Get a list of resources
@@ -39,7 +40,6 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 			   		var jsonCapabilities = xmlCapabilitiesToJson(node);
 				    var capabilitiesString=JSON.stringify(jsonCapabilities);
 				    categories=jQuery.parseJSON(capabilitiesString);
-					// console.debug(capabilitiesString);
 					$rootScope.$apply(function()
 				    {
 				    	deffered.resolve(categories);
@@ -55,10 +55,8 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 			return{
 				   getCollections:function(location) {
 						// Use attribute "location" to send a new query
-						// console.log("location : "+location);
 						var resultSplit=location.split('/');
 						var url="/"+resultSplit[1]+"/"+resultSplit[2]+"/";
-						// console.log("url : "+url);
 						var request=$iq({to:"admin@localhost/erocci", type:"get", id:"getCol"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", node: url});
 					    connection.send(request);
 					    connection.addHandler(this.printCollections, null, "iq", null, "getCol");
@@ -86,12 +84,10 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 				   	},
 				   	printResource:function(iq)
 				   	{
-				   		// console.log("printRessource");
 				   		var resource=($(iq).find('query')[0]);
 				   		var jsonResource = xmlResourcesToJson(resource);
 						var resourceString=JSON.stringify(jsonResource);
 						var resources=jQuery.parseJSON(resourceString);
-						// console.log(resourceString);
 						$rootScope.$apply(function()
 						    {
 						    	deffered.resolve(resources);
@@ -128,15 +124,12 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 	   		{
 	   			myRequestString+='.c("attribute",{name: "'+attribute+'", value: "'+listOfAttributes[attribute]+'"})';
 	   		}
-	   		// console.log("myRequest : "+myRequestString);
+	   	
 	   		var myRequest=eval(myRequestString);
-	   		// console.log("Request after evaluation :"+myRequest);
 	   		connection.send(myRequest);
 	   	},
 	   	updateResourceService:function(urlOfResource, collectionAttributes, resourceTitle, listOfAttributes)
 	   	{
-	   		// console.log("Url of resource : "+urlOfResource);
-	   		// console.log("Attributes : "+JSON.stringify(saveCollectionAttributes));
 	   		var myRequestString='$iq({to:"admin@localhost/erocci", type:"set"}).c("query",{xmlns: "http://schemas.ogf.org/occi-xmpp", op:"update", node:"'+urlOfResource+'"})';
 			if(typeOfEntity=="link")
 			{
@@ -152,7 +145,9 @@ app.factory('myService',['$q', '$rootScope', 'xmpp','xmppService', 'xmppSession'
 			}
 			// console.log("myRequest : "+myRequestString);
 			var myRequest=eval(myRequestString);
-	   		// console.log("Request after evaluation :"+myRequest);
+	   		console.log("Request after evaluation :"+myRequest);
+	   		// Send request to server
+	   		connection.send(myRequest);
 	   	}
 	}
 }]);
