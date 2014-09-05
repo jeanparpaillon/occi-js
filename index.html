@@ -2,43 +2,31 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" ng-app="occi-js">
 <head>
-	<title>occi-js :: OCCI Javascript Client</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen" /> 
-	<link href="css/style.css" rel="stylesheet" media="screen" />
+  <title>occi-js :: OCCI Javascript Client</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" /> 
+  <link href="css/style.css" rel="stylesheet" media="screen" />
   <link rel="stylesheet" href="css/autocomplete.css">
-</head>
-<body >
-  
-
+  </head>
+  <body >
+    <div ng-view></div>
     
-
-
-      <div ng-view></div>
-      
-
-
-
-
-<!-- Using bootstrap for modals which requires jQuery-->
-
-  <script src="scripts/vendor/jquery/jquery.min.js"></script>
-  <script src="scripts/vendor/bootstrap/bootstrap.min.js"></script>
-  <script src='scripts/vendor/Strophe/strophe.js'></script>
-  <script src="scripts/vendor/jquery/guid.js"></script>
-
- 
-  <!-- Angular -->
-
-  <script src="scripts/vendor/angular/angular.min.js"></script>
-  <script src="scripts/vendor/angular/angular-cookies.min.js"></script>
-  <script src="scripts/vendor/angular/angular-route.min.js"></script>
-  <script src="scripts/lib/occi-js/app.js"></script>
-  <script src="scripts/lib/occi-js/controllers/occi-xmpp.js"></script>
-  <script src="scripts/lib/occi-js/controllers/occi-http.js"></script>
-  <script src="scripts/lib/occi-js/controllers/xmpp.js"></script>
-  <script src="scripts/lib/occi-js/services/services.js"></script>
-  <script src="scripts/vendor/json/xml2json.js"></script>
-</body>
+    <!-- Using bootstrap for modules which requires jQuery-->
+    <script src="scripts/vendor/jquery/jquery.min.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap.min.js"></script>
+    <script src="scripts/vendor/Strophe/strophe.js"></script>
+    <script src="scripts/vendor/jquery/guid.js"></script>
+    
+    <!-- Angular -->
+    <script src="scripts/vendor/angular/angular.min.js"></script>
+    <script src="scripts/vendor/angular/angular-cookies.min.js"></script>
+    <script src="scripts/vendor/angular/angular-route.min.js"></script>
+    <script src="scripts/lib/occi-js/app.js"></script>
+    <script src="scripts/lib/occi-js/controllers/occi-xmpp.js"></script>
+    <script src="scripts/lib/occi-js/controllers/occi-http.js"></script>
+    <script src="scripts/lib/occi-js/controllers/xmpp.js"></script>
+    <script src="scripts/lib/occi-js/services/services.js"></script>
+    <script src="scripts/vendor/json/xml2json.js"></script>
+  </body>
 </html>
